@@ -1,0 +1,12 @@
+{
+  "seed": 20260817,
+  "replications": 2000,
+  "sample_size_per_period": 2500,
+  "periods": [
+    -2,
+    -1,
+    0,
+    1
+  ],
+  "true_effect_change": 1.0
+}

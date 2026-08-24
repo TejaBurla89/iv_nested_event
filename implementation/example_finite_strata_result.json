@@ -1,0 +1,90 @@
+{
+  "alpha": 0.05,
+  "bonferroni_critical_value": 2.734368786533176,
+  "confidence_set": {
+    "all_real": false,
+    "display": "[-1.36662, 3.49567]",
+    "lower": -1.3666174470359593,
+    "upper": 3.495670761104291
+  },
+  "coverage_level": 0.95,
+  "first_stage_orientation": {
+    "causal_interpretation_stop": false,
+    "message": "Every simultaneous first-stage interval lies above zero under the declared positive orientation. This diagnostic does not establish monotonicity or exclusion.",
+    "point_estimate_status": "positive",
+    "simultaneous_interval_assessment": "consistent_with_declared_positive_orientation"
+  },
+  "point_estimate": 0.9999999999999998,
+  "primitive_moment_count": 8,
+  "scope": "Fixed finite strata, fixed reference weights, one pre period, one post period, flat continuation. Primitive standard errors and asymptotic normal approximations must already match the sampling and clustering design; the normal critical value is not a few-cluster correction.",
+  "strata": [
+    {
+      "change_interval": [
+        -1.2817215161077182,
+        3.42806578177289
+      ],
+      "primitive_intervals": {
+        "pi_post": [
+          0.15898446820200238,
+          0.24101553179799765
+        ],
+        "pi_pre": [
+          0.15898446820200238,
+          0.24101553179799765
+        ],
+        "rho_post": [
+          0.46328156067334114,
+          0.7367184393266588
+        ],
+        "rho_pre": [
+          0.290625248538673,
+          0.509374751461327
+        ]
+      },
+      "ratio_post_interval": [
+        1.9222062462830458,
+        4.633901963244608
+      ],
+      "ratio_pre_interval": [
+        1.2058361814717184,
+        3.203927762390764
+      ],
+      "reference_weight": 0.6,
+      "stratum": "x0"
+    },
+    {
+      "change_interval": [
+        -1.493961343428321,
+        3.597078230101393
+      ],
+      "primitive_intervals": {
+        "pi_post": [
+          0.24531262426933648,
+          0.3546873757306635
+        ],
+        "pi_pre": [
+          0.24531262426933648,
+          0.3546873757306635
+        ],
+        "rho_post": [
+          1.0085941849426776,
+          1.3914058150573223
+        ],
+        "rho_pre": [
+          0.7359378728080095,
+          1.0640621271919906
+        ]
+      },
+      "ratio_post_interval": [
+        2.8436145573688725,
+        5.671969875996491
+      ],
+      "ratio_pre_interval": [
+        2.0748916458950983,
+        4.3375759007971935
+      ],
+      "reference_weight": 0.4,
+      "stratum": "x1"
+    }
+  ]
+}

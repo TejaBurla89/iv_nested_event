@@ -1,0 +1,24 @@
+\usepackage{microtype}
+\usepackage{etoolbox}
+\usepackage{xcolor}
+\usepackage{needspace}
+
+\definecolor{guideblue}{HTML}{334E68}
+\definecolor{guideteal}{HTML}{2C7A7B}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.55em plus 0.12em minus 0.08em}
+\setlength{\emergencystretch}{3em}
+\renewcommand{\arraystretch}{1.13}
+\AtBeginEnvironment{longtable}{\small}
+
+\AtBeginDocument{%
+  \hypersetup{
+    colorlinks=true,
+    linkcolor=guideblue,
+    citecolor=guideteal,
+    urlcolor=guideteal,
+    pdftitle={Instrumental Variables in Nested Event Designs: Endogenous Exposure and Changes in Local Average Treatment Effects},
+    pdfauthor={Sriteja Burla}
+  }%
+}
