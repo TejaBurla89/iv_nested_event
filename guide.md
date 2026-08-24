@@ -255,11 +255,9 @@ Burla, Sriteja. 2026. *Instrumental Variables in Nested Event Designs: Endogenou
 
 ## A. Setup and within-period IV
 
-### A.1. Population, outcomes, and compliers
-
 Fix one upper-level unit and let $\mathcal U$ be its target universe. Membership in $\mathcal U$ is determined before the instrument and the event. Event path $a\in\{0,E\}$ records whether the event occurs. Let $a_0=0$ denote the common pre-event path and $a_1=E$ the factual post-event path.
 
-For lower-level unit $i$ in period $t$, let $D_{it}(a,z)\in\{0,1\}$ be potential exposure under instrument value $z$. Let $Y_{it}(a,d)$ be the potential outcome under exposure $d$. This notation imposes exclusion: once exposure is fixed, the instrument has no further effect on the outcome.
+For lower-level unit $i$ in period $t$, let $D_{it}(a,z)\in\{0,1\}$ be potential exposure under binary instrument value $z$. Let $Y_{it}(a,d)$ be the potential outcome under exposure $d$. This notation imposes exclusion: once exposure is fixed, the instrument has no further effect on the outcome. Factual-period exclusion belongs to the period-specific IV argument. Extending exclusion to the unobserved post-event no-event path requires a separate maintained assumption.
 
 Under the positive orientation, define the complier set and exposure effect as
 
@@ -324,7 +322,9 @@ E[\tau_{it}(a)\mid i\in\mathcal C^S,X_i]
 
 No anticipation gives the pre-event estimate its no-event meaning. A prespecified continuation maps the comparable pre-event LATE history into the missing $L_1^{0,S,\star}$. Under the flat continuation, $L_1^{0,S,\star}=L_0^{0,S,\star}$.
 
-**Identification result.** Assume period-specific IV validity, the sampling bridge, the common-population condition, no anticipation, and a flat continuation. Then
+The no-event post-period path must also preserve exclusion. This restriction cannot be assessed from factual post-event outcomes because that path is unobserved.
+
+**Identification result.** Assume period-specific IV validity, the sampling bridge, the common-population condition, no anticipation, no-event exclusion, and a flat continuation. Then
 
 \[
 \beta_1^\star-\beta_0^\star
@@ -338,7 +338,28 @@ This equality is the complete identification argument. A general continuation re
 
 ### B.3. A weaker population link
 
-Set equality is sufficient but stronger than the algebra requires. Complier identities may change if, within each value of $X$, the relevant mean exposure effects equal those for the stable population. The stable population must have positive probability wherever $F_X^\star$ assigns weight. The same mean link must also support the no-event continuation. This route permits complier turnover. Its credibility depends on a substantive reason why the average effects transfer across the latent groups.
+Set equality is sufficient but stronger than the algebra requires. To state the weaker route, write
+
+\[
+M_{t,a}^{G}(x)
+=E[\tau_{it}(a)\mid i\in G,X_i=x].
+\]
+
+For the two-period design, the required conditional mean links are
+
+\[
+\begin{aligned}
+M_{0,0}^{\mathcal C_0(0)}(x)
+&=M_{0,0}^{\mathcal C_1(0)}(x),\\
+M_{1,0}^{\mathcal C_1(0)}(x)
+&=M_{1,0}^{\mathcal C^S}(x),\\
+M_{1,E}^{\mathcal C_1(E)}(x)
+&=M_{1,E}^{\mathcal C^S}(x).
+\end{aligned}
+\tag{S.7}
+\]
+
+The first equality places the pre-event effect on the population that would comply after the event under the no-event path. The continuation then carries that population's effect forward; under a flat path, $M_{1,0}^{\mathcal C_1(0)}(x)=M_{0,0}^{\mathcal C_1(0)}(x)$. The second and third equalities place the counterfactual and factual post-event effects on stable compliers. These restrictions apply wherever $F_X^\star$ assigns weight, and stable compliers must have positive probability there. This route permits turnover in complier identities. Its credibility depends on a substantive reason why mean effects transfer across the latent groups.
 
 ## C. Decomposition and sensitivity
 
@@ -355,33 +376,72 @@ B^{C,\star}
 B^{O,\star}
 &=(m_1^O-m_1^U)-(m_0^O-m_0^U).
 \end{aligned}
-\tag{S.7}
+\tag{S.8}
 \]
 
 Adding and subtracting these intermediate effects gives Equation (5). A flat continuation sets $\Delta^{0,\star}=0$. The equality or mean-transport route sets $B^{C,\star}=0$. The sampling bridge sets $B^{O,\star}=0$.
 
 ### C.2. Sensitivity region
 
-The rectangular bounds in Equation (6) provide the simplest sensitivity region. Applications may instead impose sign restrictions, joint restrictions, or continuation models calibrated from comparable pre-event IV paths. The restrictions should reflect evidence about the three mechanisms rather than mathematical convenience.
+Let $\mathcal H$ be a prespecified set of plausible triples $(\delta,b_C,b_O)$ for the three discrepancies. The corresponding set for the event effect is
+
+\[
+\Theta(\mathcal H)
+=\left\{
+\Delta^{IV,\star}-\delta-b_C-b_O:
+(\delta,b_C,b_O)\in\mathcal H
+\right\}.
+\tag{S.9}
+\]
+
+Equation (6) is the symmetric rectangular case. The set $\mathcal H$ can instead impose asymmetric bounds, signs, or dependence across the discrepancies. Historical IV paths can inform its continuation component when they use the same instrument, exposure, target, reference distribution, and local-population link.
 
 ## D. Multiple periods and staggered events
 
-Index event cohorts by $c$, upper-level units by $h$, and event time by $k$. Let $\mathcal G_k$ contain the cohorts contributing at horizon $k$. Let $\mathcal H_c$ contain the upper-level units in cohort $c$. The terms $\rho_{hck}(x)$ and $\pi_{hck}(x)$ are the corresponding conditional reduced form and first stage. Let $F_{X,hc}^\star$ be the declared reference distribution and $g_{hck}$ the prespecified no-event continuation.
+Index event cohorts by $c$, upper-level units by $h$, and event time by $k$. For each component, let $\rho_{hck}(x)$ and $\pi_{hck}(x)$ denote the conditional reduced form and first stage. Given the declared reference distribution $F_{X,hc}^\star$, the factual standardized LATE is
 
-The nonnegative cohort weights satisfy $\sum_{c\in\mathcal G_k}\omega_{c\mid k}=1$. Within each cohort, $\sum_{h\in\mathcal H_c}\omega_{hc\mid k}=1$. The event-time target is
+\[
+\beta_{hck}^\star
+=E_{F_{X,hc}^\star}\!\left[
+\frac{\rho_{hck}(X)}{\pi_{hck}(X)}
+\right].
+\tag{S.10}
+\]
+
+At a reported post-event horizon, define $\mathcal C_{hck}^S=\mathcal C_{hck}(0)\cap\mathcal C_{hck}(E)$ as the stable complier population. Let $g_{hck}$ be the prespecified no-event LATE, constructed for the same local population and reference distribution from comparable pre-event LATEs. Period-specific IV validity and the sampling bridge identify the factual LATE. The horizon-specific population link places the factual and no-event effects on $\mathcal C_{hck}^S$. No anticipation, no-event exclusion, and a correct continuation then give
+
+\[
+\beta_{hck}^\star-g_{hck}
+=\theta_{hck}^{S,\star}.
+\tag{S.11}
+\]
+
+The local population in (S.11) may change with $k$. Interpreting the entire event-study path for one fixed local population requires a stronger link to an all-horizon intersection. Support is also horizon specific. It must hold in the reported period and in every period used to form $F_{X,hc}^\star$ or $g_{hck}$.
+
+Let $\mathcal G_k$ contain the cohorts contributing at horizon $k$, and let $\mathcal H_c$ contain the upper-level units in cohort $c$. The nonnegative cohort weights satisfy $\sum_{c\in\mathcal G_k}\omega_{c\mid k}=1$. Within each cohort, $\sum_{h\in\mathcal H_c}\omega_{hc\mid k}=1$. Aggregation gives
 
 \[
 \theta_k
 =\sum_{c\in\mathcal G_k}\omega_{c\mid k}
 \sum_{h\in\mathcal H_c}\omega_{hc\mid k}
 \left\{
-E_{F_{X,hc}^\star}\!\left[\frac{\rho_{hck}(X)}{\pi_{hck}(X)}\right]
+\beta_{hck}^\star
 -g_{hck}
 \right\}.
-\tag{S.8}
+\tag{S.12}
 \]
 
-Every positively weighted component needs IV support, sampling support, and the chosen local-population link. A balanced window fixes the cohort set and weights across reported horizons. If a component falls outside support, trimming changes the target. Report the cohort set, weights, and retained reference mass.
+Pooling primitive moments before taking a ratio changes the weights. For generic components $j$ with declared weights $a_j$,
+
+\[
+\frac{\sum_j a_j\rho_j}{\sum_j a_j\pi_j}
+=\sum_j
+\frac{a_j\pi_j}{\sum_\ell a_\ell\pi_\ell}
+\frac{\rho_j}{\pi_j}.
+\tag{S.13}
+\]
+
+The pooled ratio therefore uses first-stage-dependent weights rather than the weights in (S.12). A balanced window fixes the cohort set and weights across horizons. Trimming an unsupported component changes the target; report the cohort set, weights, and retained reference mass.
 
 ## E. Estimation and inference
 
@@ -396,14 +456,35 @@ For finite covariate strata $x\in\mathcal X^\star$, let $\widehat p_x^\star$ den
 \frac{\widehat\rho_t(x)}{\widehat\pi_t(x)},
 \qquad
 \widehat\theta=\widehat\beta_1^\star-\widehat g_1.
-\tag{S.9}
+\tag{S.14}
 \]
 
 Under the flat two-period benchmark, $\widehat g_1=\widehat\beta_0^\star$. A general continuation may use several pre-event estimates. Apply the support rule and weights exactly as defined by the target.
 
+For the default pre-event complier distribution, let $\widehat f_0(x)$ be the empirical pre-event covariate mass on the supported strata. Estimate the reference weights by
+
+\[
+\widehat p_x^\star
+=\frac{\widehat\pi_0(x)\widehat f_0(x)}
+{\sum_v\widehat\pi_0(v)\widehat f_0(v)}.
+\tag{S.15}
+\]
+
+Substituting (S.15) into the pre-event component cancels the cell-specific first stages:
+
+\[
+\widehat\beta_0^\star
+=\frac{\sum_x\widehat f_0(x)\widehat\rho_0(x)}
+{\sum_v\widehat f_0(v)\widehat\pi_0(v)}.
+\]
+
+The post-event component still contains the supported ratios $\widehat\rho_1(x)/\widehat\pi_1(x)$. When the reference weights are estimated from the analysis data, strong-identification inference should rebuild them. The procedure in Section E.3 instead treats the reference weights as fixed and external.
+
 ### E.2. Strong-identification inference
 
 A full-process bootstrap resamples the original independent units and rebuilds the estimator. Rebuild the reference distribution, generated instrument, cohort stacks, continuation, and aggregation weights when they are estimated. This preserves covariance among the parts of $\widehat\theta$.
+
+Prespecified fixed support can remain fixed across resamples. Data-dependent support requires inference that accommodates the selection step and a clear label for the resulting realized target.
 
 Each resample should return the final contrast, not a collection of component estimates later treated as independent. The bootstrap distribution of the rebuilt contrast supplies its standard error and confidence interval under the maintained strong-identification conditions. For an event-time path, rebuild every horizon in the same resample. Pointwise intervals use the horizon-specific distributions; a simultaneous band must use their joint distribution.
 
@@ -411,7 +492,7 @@ A sandwich variance must use stacked scores for the exact average-of-ratios func
 
 ### E.3. Weak-instrument inference
 
-This section provides one deliberately narrow procedure. It applies to one pre-event period, one post-event period, fixed finite strata, fixed external reference weights, and a flat continuation. The procedure is useful because it can be implemented directly. It is not a general weak-IV solution for every estimator in this guide.
+This section provides one deliberately narrow procedure. It applies to one pre-event period, one post-event period, fixed finite strata, fixed external reference weights, and a flat continuation. The procedure can be implemented directly. Its scope is narrower than the full set of estimators in this guide.
 
 Suppose there are $K$ positively weighted strata and $m=4K$ primitive reduced-form and first-stage moments. For each primitive moment $q_j$, construct the interval
 
@@ -424,10 +505,10 @@ Suppose there are $K$ positively weighted strata and $m=4K$ primitive reduced-fo
 \widehat q_j+z_{1-\alpha/(2m)}
 \widehat{\operatorname{se}}(\widehat q_j)
 \right].
-\tag{S.10}
+\tag{S.16}
 \]
 
-If the marginal normal approximations are valid under the declared sampling and clustering design, Bonferroni's inequality gives the resulting rectangle joint coverage of at least $1-\alpha$. The standard errors are inputs to the procedure and must already account for the application's dependence structure. The normal critical value in (S.10) is not a few-cluster correction.
+If the marginal normal approximations are valid under the declared sampling and clustering design, Bonferroni's inequality gives the resulting rectangle joint coverage of at least $1-\alpha$. The standard errors are inputs to the procedure and must already account for the application's dependence structure. The normal critical value in (S.16) is not a few-cluster correction.
 
 Next project each period-stratum reduced-form interval through its first-stage interval. When the first-stage interval excludes zero, the ratio interval is the range of the four endpoint quotients. When it includes zero, use the whole real line for that period-stratum ratio. Let $\mathcal B_t(x)$ denote the resulting set. The confidence set for the event contrast is
 
@@ -435,24 +516,34 @@ Next project each period-stratum reduced-form interval through its first-stage i
 \mathrm{CS}_{1-\alpha}
 =\sum_x p_x^\star
 \{\mathcal B_1(x)-\mathcal B_0(x)\}.
-\tag{S.11}
+\tag{S.17}
 \]
 
-This construction is conservative because it ignores covariance that could tighten the joint set. Its main virtue is that weak first stages widen the reported set and can make it unbounded; they do not produce a misleadingly precise ratio interval. In the worked files supplied with this guide, the point estimate is 1.00 and the conservative 95 percent set is approximately $[-1.37,3.50]$. The example therefore illustrates how an apparently clear point estimate can coexist with limited information about the event contrast.
+This construction is conservative because it ignores covariance that could tighten the joint set. Weak first stages widen the reported set and can make it unbounded. For the fixed external weights in the worked files supplied with this guide, the point estimate is 1.00 and the conservative 95 percent set is approximately $[-1.37,3.50]$. The example illustrates how an apparently clear point estimate can coexist with limited information about the event contrast.
 
 The first-stage intervals also discipline interpretation. A negative point estimate is a warning rather than a test of the population orientation assumption. An interval that spans zero is weak and inconclusive. An interval wholly at or below zero contradicts the declared positive orientation at the reported confidence level and stops that causal interpretation unless the design is redefined and defended.
 
-The companion implementation reproduces Equations (S.10)--(S.11), the worked input, and the reported result. It does not cover estimated reference weights, data-dependent strata or support, flexible covariates, nonlinear continuations, overlapping cohort stacks, or estimated cohort weights. Those cases require identification-robust inference for the exact functional. If no justified procedure is available, report the reduced forms and first stages and label conventional intervals as strong-identification approximations. Anderson--Rubin procedures remain useful for suitable component equations, but separate component intervals do not automatically cover their dependent difference (Anderson and Rubin 1949; Andrews 2022).
+The companion implementation reproduces Equations (S.16)--(S.17), the worked input, and the reported result. Its scope excludes estimated reference weights, data-dependent strata or support, flexible covariates, nonlinear continuations, overlapping cohort stacks, and estimated cohort weights. Those cases require identification-robust inference for the exact functional. If no justified procedure is available, report the reduced forms and first stages and label conventional intervals as strong-identification approximations. Anderson--Rubin procedures remain useful for suitable component equations; valid coverage for their dependent difference requires a joint construction (Anderson and Rubin 1949; Andrews 2022).
 
-### E.4. Dependence and generated instruments
+### E.4. Dependence and stacked data
 
 Variance estimation should follow assignment, sampling, event timing, and instrument construction. Repeated observations on one person share a contribution. So do duplicate appearances created by cohort stacking. Preserve the original cluster identifiers and rebuild stacks within each resample. With few independent clusters, use a procedure justified for that sampling structure.
 
-The construction choices listed in Section 5.1 must remain fixed across the analysis. An instrument estimated from analysis-linked random data belongs inside the full-process resample. An explicit independence argument may instead support conditioning on the realized score.
-
-Retain the stratum-specific moments and weights used in (S.9). Also retain the support decisions, continuation inputs, and covariance or resampling rule for the final contrast.
-
 Few-cluster correction and weak-IV robustness address different failures. A cluster bootstrap of a conventional ratio statistic remains a strong-identification procedure. Likewise, the projection in Section E.3 requires credible primitive-moment intervals and does not repair few-cluster size distortion by itself.
+
+\Needspace{0.22\textheight}
+
+### E.5. Generated instruments
+
+A score learned in an external sample or a prespecified pre-analysis period can be treated as fixed when the application defends conditioning on the realized map. Its input definition, scale, orientation, and any cutoff should remain the same across periods. These features determine the encouragement intervention and therefore the complier population.
+
+When analysis-linked random data help construct the score, resample the original independent units and rebuild the training sample, score, cutoff, and assignment rule. The leave-out unit should match the relevant source of dependence. Omitting only the focal observation may be too narrow when patients share an ambulance company, market, event unit, or training cluster. Leave-out construction removes a mechanical part-whole link; independence and exclusion still require an institutional argument.
+
+New assignment sources or input patterns may appear after the event. A prespecified rule can classify them as unsupported, map them using supported predetermined features, or place them in a separately labeled updated-instrument analysis. Retraining the primary score on post-event exposure choices can make the instrument respond to the event. Report score support, instrument-arm shares, first stages, and unsupported reference mass by period and cohort.
+
+\begingroup
+\small
+\setlength{\parskip}{0.28em}
 
 ## References
 
@@ -477,3 +568,5 @@ Miyaji, Sho. 2024. “Instrumented Difference-in-Differences with Heterogeneous 
 Rambachan, Ashesh, and Jonathan Roth. 2023. “A More Credible Approach to Parallel Trends.” *Review of Economic Studies* 90 (5): 2555–2591. <https://doi.org/10.1093/restud/rdad018>.
 
 Roth, Jonathan. 2022. “Pretest with Caution: Event-Study Estimates after Testing for Parallel Trends.” *American Economic Review: Insights* 4 (3): 305–322. <https://doi.org/10.1257/aeri.20210236>.
+
+\endgroup
