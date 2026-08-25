@@ -170,7 +170,7 @@ Figure 3 uses four repeated cross sections around one event. Every scenario has 
 
 ![](figures/figure3_standardization_and_continuation.png)
 
-*Notes:* Markers show means across 2,000 replications; vertical lines show the 2.5th and 97.5th percentiles. Each period contains 2,500 observations. The dashed line is the true event-induced change in LATE. “Common-standardized” averages over the pre-event complier covariate distribution. “Flat” carries the pre-event LATE forward; “linear” extrapolates from three pre-event LATEs. The accompanying replication materials document the data-generating process, fixed seed, and outputs.
+*Notes:* Markers show means across 2,000 replications; vertical lines show the 2.5th and 97.5th percentiles. Each period contains 2,500 observations. The dashed line is the true event-induced change in LATE. “Common-standardized” averages over the pre-event complier covariate distribution. “Flat” carries the pre-event LATE forward; “linear” extrapolates from three pre-event LATEs. The accompanying replication materials document the data-generating process, fixed seed, and outputs.\footnote{Available in the \href{https://github.com/TejaBurla89/iv_nested_event}{project repository}.}
 
 In the stable-complier scenario, all three estimators average about one. Shifting the observed distribution of $X$ moves the raw estimate to 1.75, while common standardization brings it back to 1.00. Latent complier turnover produces an estimate near 1.80 even after standardization because the observable mix remains stable. Finally, a rising no-event LATE makes the flat continuation average 1.40; the correctly specified linear continuation averages 0.99.
 
