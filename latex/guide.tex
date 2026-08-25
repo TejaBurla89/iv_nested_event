@@ -145,10 +145,11 @@ A natural design estimates the ambulance IV before and after the
 acquisition, then compares the two Wald ratios. Each ratio can identify
 a local effect for patients whose hospital destination responds to the
 instrument in that period. Their difference becomes an event effect only
-after three additional links are made. The estimates must refer to a
-common target population and comparable local populations across periods
-and event paths. The design must also specify how the LATE would have
-evolved after the acquisition date without the acquisition.
+after the estimates are linked across samples, local populations, and
+event paths. The estimates must refer to a common target population and
+comparable local populations across periods and event paths. The design
+must also specify how the LATE would have evolved without the
+acquisition and maintain exclusion along that counterfactual path.
 
 This guide develops those links and shows what remains informative when
 they are uncertain. Under a stable-complier benchmark and a flat
@@ -171,8 +172,9 @@ Consider a hospital acquired at a known date. Acquisition is the
 upper-level event, and emergency patients are the lower-level units. Let
 \(D=1\) denote initial care at the focal hospital. Let \(D=0\) denote a
 declared alternative, such as one comparison hospital or a fixed
-distribution of eligible hospitals. Let \(Z\) denote ambulance-company
-assignment or a fixed encouragement derived from company preferences.
+distribution of eligible hospitals. For the benchmark, let
+\(Z\in\{0,1\}\) denote a prespecified encouragement derived from
+ambulance-company assignment or company preferences.
 
 Ambulance assignment supplies within-period variation in hospital
 destination. The acquisition is a separate intervention. It may change
@@ -331,6 +333,11 @@ continuation or bounds on plausible departures. Whichever rule is
 chosen, it concerns a path of LATEs---not a trend in average untreated
 outcomes.
 
+The no-event path also requires exclusion: holding exposure fixed, \(Z\)
+has no effect on the post-event outcome under that path. Its credibility
+must come from the institutional design because the no-event post-period
+is unobserved.
+
 No anticipation gives pre-event estimates their counterfactual meaning.
 Announcements, preparation, or early changes in ambulance behavior can
 contaminate periods near the acquisition date. In that case, use an
@@ -350,8 +357,8 @@ requires a continuation for the post-event LATE under the no-event path.
 The dashed line is schematic; applications may use a flat, linear, or
 bounded continuation.
 
-With stable compliers, a valid sampling bridge, and a flat no-event
-path, the standardized before-and-after change identifies the target:
+Under the period-specific IV conditions and the event assumptions above,
+the standardized before-and-after change identifies the target:
 
 \[
 \boxed{\theta^{S,\star}=\beta_1^\star-\beta_0^\star.}
@@ -396,8 +403,9 @@ Period-specific IV conditions hold & A LATE of exposure for each
 period's observed compliers \\
 Common support, standardization, and a sampling bridge hold & Comparable
 factual-period LATEs for the declared target \\
-The local-population link, no anticipation, and the continuation also
-hold & Event-induced change in LATE for the declared local population \\
+The local-population link, no anticipation, no-event exclusion, and the
+continuation also hold & Event-induced change in LATE for the declared
+local population \\
 \end{longtable}
 
 \endgroup
@@ -487,7 +495,7 @@ observations. The dashed line is the true event-induced change in LATE.
 distribution. ``Flat'' carries the pre-event LATE forward; ``linear''
 extrapolates from three pre-event LATEs. The accompanying replication
 materials document the data-generating process, fixed seed, and
-outputs.\footnote{Available in the \href{https://github.com/TejaBurla89/iv_nested_event}{project repository}.}
+outputs.\footnote{Replication materials: \url{https://github.com/TejaBurla89/iv_nested_event}.}
 
 In the stable-complier scenario, all three estimators average about one.
 Shifting the observed distribution of \(X\) moves the raw estimate to
@@ -831,9 +839,9 @@ prespecified continuation maps the comparable pre-event LATE history
 into the missing \(L_1^{0,S,\star}\). Under the flat continuation,
 \(L_1^{0,S,\star}=L_0^{0,S,\star}\).
 
-The no-event post-period path must also preserve exclusion. This
-restriction cannot be assessed from factual post-event outcomes because
-that path is unobserved.
+The no-event post-period path must also preserve exclusion. Assessing
+this restriction requires institutional evidence about the unobserved
+path.
 
 \textbf{Identification result.} Assume period-specific IV validity, the
 sampling bridge, the common-population condition, no anticipation,
