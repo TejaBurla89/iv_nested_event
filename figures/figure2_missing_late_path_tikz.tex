@@ -39,23 +39,23 @@
 \node[keylabel,color=navy,anchor=south] at (-2.30,1.72)
   {Pre-event LATEs};
 
-% Observed factual path
+% Observed LATE path
 \draw[navy,line width=0.90pt]
   (-1.20,1.52) -- (1.48,3.00);
 \fill[navy] (1.48,3.00) circle (2.45pt);
 \node[keylabel,color=navy,anchor=south west] at (1.58,3.02)
-  {Factual post-event LATE};
+  {Observed post-event LATE};
 \node[annotation,color=navy,rotate=29,anchor=south]
-  at (0.25,2.34) {Observed factual path};
+  at (0.25,2.34) {Observed LATE path};
 
-% Constructed no-event path
+% Assumed counterfactual path
 \draw[amber,densely dashed,line width=0.90pt]
   (-1.20,1.52) .. controls (-0.20,1.58) and (0.72,1.72) .. (1.48,1.86);
 \draw[amber,line width=0.78pt,fill=white] (1.48,1.86) circle (2.65pt);
 \node[annotation,color=amber,anchor=north]
-  at (0.30,1.56) {Declared continuation};
+  at (0.30,1.56) {Assumed counterfactual path};
 \node[keylabel,color=amber,anchor=north west] at (1.58,1.82)
-  {Predicted no-event LATE};
+  {Post-event LATE without event};
 
 % Event contrast at the post-event date
 \draw[{Stealth}-{Stealth},teal,line width=0.88pt]

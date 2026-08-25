@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Monte Carlo experiment for Section 3.2 and Figure 3 of the guide.
 
-The experiment studies common standardization, complier turnover, and the
-no-event continuation. It uses no external data.
+The experiment studies standardization to a fixed covariate distribution,
+changes in the complier population, and assumptions about how the LATE would
+have evolved without the event. It uses no external data.
 """
 
 from __future__ import annotations
@@ -27,16 +28,16 @@ PERIODS = np.array([-2, -1, 0, 1])
 UNIVERSE_PROB_X = 0.50
 
 SCENARIOS = {
-    "stable": "Stable compliers,\nflat path",
+    "stable": "Same compliers,\nLATE held fixed",
     "observed_shift": "Observed X\nshift",
     "turnover": "Unobserved\nturnover",
-    "secular": "Linear no-event\ntrend",
+    "secular": "Linear counterfactual\nLATE trend",
 }
 
 ESTIMATORS = {
-    "raw_flat": "Unstandardized, flat",
-    "standardized_flat": "Common-standardized, flat",
-    "standardized_linear": "Common-standardized, linear",
+    "raw_flat": "Unstandardized, LATE held fixed",
+    "standardized_flat": "Standardized, LATE held fixed",
+    "standardized_linear": "Standardized, linear extrapolation",
 }
 
 

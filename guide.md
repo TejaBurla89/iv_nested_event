@@ -1,5 +1,5 @@
 ---
-title: "Instrumental Variables in Nested Event Designs"
+title: "Instrumental Variables Before and After an Event"
 subtitle: "Endogenous Exposure and Changes in Local Average Treatment Effects"
 author: "Sriteja Burla"
 date: "August 2026"
@@ -11,39 +11,39 @@ lang: en-US
 
 Suppose a hospital is acquired and researchers want to learn whether the acquisition changed the effect of receiving care there. A direct comparison with patients treated elsewhere is difficult because hospital destination is not random. Ambulance dispatch provides a possible instrument: otherwise similar patients may be assigned to companies with different hospital preferences, which shift the hospital that initially receives them (Doyle et al. 2015).
 
-A natural design estimates the ambulance IV before and after the acquisition, then compares the two Wald ratios. Each ratio can identify a local effect for patients whose hospital destination responds to the instrument in that period. Their difference becomes an event effect only after the estimates are linked across samples, local populations, and event paths. The estimates must refer to a common target population and comparable local populations across periods and event paths. The design must also specify how the LATE would have evolved without the acquisition and maintain exclusion along that counterfactual path.
+A natural design estimates the ambulance IV before and after the acquisition, then compares the two Wald ratios. Each ratio can identify a local effect for patients whose hospital destination responds to the instrument in that period. Their difference becomes an event effect only if the estimates refer to the same target population and comparable complier populations. The design must also specify how the LATE would have evolved without the acquisition. Exclusion must hold for that counterfactual state as well as for the observed periods.
 
-This guide develops those links and shows what remains informative when they are uncertain. Under a stable-complier benchmark and a flat no-event path, the event effect equals the standardized post-event Wald ratio minus the standardized pre-event Wald ratio. Weaker population links and alternative continuations require explicit assumptions and often lead naturally to sensitivity analysis. The framework therefore separates what the period-specific IVs identify from what supports a causal event interpretation.
+This guide states the assumptions needed for that comparison and shows what remains informative when they are uncertain. If the same population would comply before the event and under both post-event states, and if the counterfactual post-event LATE equals the comparable pre-event LATE, the event effect equals the standardized post-event Wald ratio minus the standardized pre-event Wald ratio. Less restrictive assumptions about the complier populations or the missing counterfactual can be examined through sensitivity analysis. The framework separates what the period-specific IVs identify from the additional assumptions needed for a causal event interpretation.
 
-## 1. The nested event problem
+## 1. The empirical setting
 
 ### 1.1. Roles of the event and instrument
 
-Consider a hospital acquired at a known date. Acquisition is the upper-level event, and emergency patients are the lower-level units. Let $D=1$ denote initial care at the focal hospital. Let $D=0$ denote a declared alternative, such as one comparison hospital or a fixed distribution of eligible hospitals. For the benchmark, let $Z\in\{0,1\}$ denote a prespecified encouragement derived from ambulance-company assignment or company preferences.
+Consider a hospital acquired at a known date. The acquisition is the event, and emergency patients are the units whose hospital exposure may change. Let $D=1$ denote initial care at the focal hospital. Let $D=0$ denote a prespecified alternative exposure, such as initial care at one comparison hospital or at hospitals drawn from a fixed eligible-hospital distribution. Let $Z\in\{0,1\}$ denote a prespecified encouragement derived from ambulance-company assignment or company preferences.
 
 Ambulance assignment supplies within-period variation in hospital destination. The acquisition is a separate intervention. It may change care at the focal hospital and the alternatives against which that care is compared. The design therefore uses $Z$ to identify exposure effects in each period. Additional cross-period assumptions support interpreting their change as an event effect.
 
-Fuzzy or instrumented DiD uses a policy or group change to generate the instrument (de Chaisemartin and D'Haultfœuille 2018; Miyaji 2024). Here, a lower-level IV identifies exposure effects within each period. The event changes the environment across which those effects are compared.
+Fuzzy or instrumented DiD uses a policy or group change to generate the instrument (de Chaisemartin and D'Haultfœuille 2018; Miyaji 2024). Here, a within-period IV identifies exposure effects. The event changes the environment across which those effects are compared.
 
 \Needspace{0.62\textheight}
 
-**Figure 1. The event and the lower-level IV play different causal roles**
+**Figure 1. The event and the instrument play different causal roles**
 
 ![](figures/figure1_nested_event_roles.pdf){width=88%}
 
-*Notes:* The lower-level IV shifts exposure within a period. The upper-level event may change both the exposure process and the effect of exposure. Exclusion rules out an effect of $Z$ on $Y$ through channels outside the declared exposure.
+*Notes:* The IV shifts exposure within a period. The event may change both the exposure process and the effect of exposure. Exclusion rules out an effect of $Z$ on $Y$ through channels outside the prespecified exposure contrast.
 
-The same structure appears in other settings. Workers may sort across establishments after a workplace policy. Families may choose among schools that adopt programs. Cases may be assigned across courts during an institutional reform. In each example, a lower-level instrument addresses exposure choice. An event changes the environment in which that exposure operates.
+The same structure appears in other settings. Workers may sort across establishments after a workplace policy. Families may choose among schools that adopt programs. Cases may be assigned across courts during an institutional reform. In each example, an instrument addresses exposure choice within a period. An event changes the environment in which that exposure operates.
 
 ### 1.2. Target population and intervention definitions
 
-Start with an event-invariant rule that assigns lower-level units to an upper-level target. Call the resulting set the **target universe**. For a hospital, this might be all eligible emergency patients originating in prespecified pickup areas around the hospital. The rule covers patients ultimately taken elsewhere as well as those treated at the focal hospital.
+Define the **target population** using a rule that remains fixed across the event. For a hospital, this population might include all eligible emergency patients originating in prespecified pickup areas around the hospital. The rule covers patients ultimately taken elsewhere as well as those treated at the focal hospital.
 
 Membership is determined before ambulance assignment. This timing avoids defining the study population by realized destination—the exposure shifted by the instrument. Predetermined market, cohort, or source-population indicators can refine the target. Realized-provider fixed effects instead condition on an endogenous response. They may absorb the first stage or select patients on unobserved determinants of outcomes. Konetzka, Yang, and Werner (2019) discuss the related problem of using a patient-level instrument to study a provider-level attribute.
 
 Stable intervention definitions matter just as much. The two values of $Z$ should represent the same encouragement in each period. Likewise, $D=1$ and $D=0$ should describe the same exposure contrast. If the comparison group combines several hospitals, changes in their mixture may alter the meaning of $D=0$. Researchers can address that problem by fixing the alternative-provider distribution, defending version irrelevance, or defining a richer exposure.
 
-Eligibility and outcome observation may vary over time, so the records can form repeated cross sections rather than a panel. State the observation rule alongside the target universe. In particular, exposure-induced survival, attrition, or missingness changes who contributes an observed outcome and requires a separate selection analysis.
+Eligibility and outcome observation may vary over time, so the records can form repeated cross sections rather than a panel. State the observation rule alongside the target population. In particular, exposure-induced survival, attrition, or missingness changes who contributes an observed outcome and requires a separate selection analysis.
 
 ## 2. Identification of the event effect
 
@@ -58,9 +58,9 @@ Let $t=0$ denote a pre-event period and $t=1$ a post-event period. For predeterm
 \tag{1}
 \]
 
-Call the numerator $\rho_t(x)$ and the denominator $\pi_t(x)$. Under the usual binary-IV conditions, $\beta_t(x)$ is the exposure LATE for period-$t$ compliers (Imbens and Angrist 1994). The conditions are independence, exclusion, monotonicity, overlap, a positive first stage, and a suitable observation process. Assess them in every period used by the event design. Report the instrument propensity, reduced form, first stage, and strength evidence by period. A pooled first stage can hide a weak component.
+Call the numerator $\rho_t(x)$ and the denominator $\pi_t(x)$. Under the usual binary-IV conditions, $\beta_t(x)$ is the exposure LATE for period-$t$ compliers whose outcomes are observed (Imbens and Angrist 1994). These conditions are independence, exclusion, monotonicity, positive probability for both instrument values, and relevance. Define $Z=1$ as the value intended to increase exposure, and retain that coding in every period. Period-specific IV validity must hold in the analyzed sample. Section 2.2 states the additional conditions needed when outcome observation is selective or when the estimand is extended to all compliers in the target population. Assess the IV conditions in every period used by the event design. Report the instrument propensity, reduced form, first stage, and strength evidence by period. A pooled first stage can hide a weak component.
 
-### 2.2. Common standardization and sampling
+### 2.2. Standardization and outcome observation
 
 Raw Wald ratios can change because the covariate distribution of compliers changes. Choose a reference distribution $F_X^\star$ before looking at outcomes and average the conditional ratios over its common-support domain:
 
@@ -73,22 +73,22 @@ Raw Wald ratios can change because the covariate distribution of compliers chang
 
 A useful default is the covariate distribution of pre-event compliers. Using the observed pre-event distribution $F_{X0}$, the reference measure is proportional to $\pi_0(x)dF_{X0}(x)$. Restrict it to strata that support both period-specific ratios. Choosing another policy-relevant distribution is equally coherent, provided the choice and any trimming are reported.
 
-Standardization ensures that the pre- and post-event Wald ratios average over the same observed covariate distribution. At that stage, the estimand concerns compliers whose outcomes are observed. A **sampling bridge** extends their conditional mean exposure effects to compliers in the target universe. That bridge requires positive observation probability in the target strata and an exclusion argument that extends beyond the analyzed records. Applications with selective survival or attrition will often need a more explicit model or sensitivity analysis.
+Standardization ensures that the pre- and post-event Wald ratios average over the same observed covariate distribution. At that stage, the estimand concerns compliers whose outcomes are observed. Extending it to compliers in the target population requires their conditional mean exposure effects to equal those of observed compliers. Outcomes must also have positive probability of being observed in every target stratum. The exclusion argument must cover the target population, not only the analyzed records. Applications with selective survival or attrition will often need a more explicit model or sensitivity analysis.
 
-### 2.3. Stable compliers and the no-event path
+### 2.3. Complier populations and the post-event counterfactual
 
-Even after standardization, $\Delta^{IV,\star}$ may compare different local populations. The benchmark defines **stable compliers** using three response conditions. Their exposure responds to the instrument before the event. It also responds after the event under both the observed and no-event paths. Stability can be imposed as equality of these complier sets. A weaker route allows membership to change. It instead carries the relevant conditional mean exposure effects across the changing groups. Sections B.2 and B.3 formalize the two routes.
+Even after standardization, $\Delta^{IV,\star}$ may compare different complier populations. The benchmark assumes the same units comply before the event and after the event under both the observed and counterfactual event states. A weaker approach allows the membership of the complier population to change but assumes equality of the relevant conditional mean exposure effects across those populations. Sections B.2 and B.3 state both sets of conditions.
 
-The second link concerns the missing post-event counterfactual. Let $L_1^{E,S,\star}$ be the post-event LATE under the event. Let $L_1^{0,S,\star}$ be the LATE that would have prevailed at the same date without it. Both terms use stable compliers and the reference covariate distribution. The event target is
+The second requirement concerns the missing post-event counterfactual. Let $L_1^{E,\cap,\star}$ be the standardized post-event LATE under the event. Let $L_1^{0,\cap,\star}$ be the standardized LATE that would have prevailed at the same date without it. Both terms refer to units who comply in all three relevant states and use the reference covariate distribution. The event estimand is
 
 \[
-\theta^{S,\star}=L_1^{E,S,\star}-L_1^{0,S,\star}.
+\theta^{\cap,\star}=L_1^{E,\cap,\star}-L_1^{0,\cap,\star}.
 \tag{3}
 \]
 
-Only the first term is observed after the event. A flat benchmark sets the missing term equal to the comparable pre-event LATE. Several pre-event estimates can instead support a prespecified linear continuation or bounds on plausible departures. Whichever rule is chosen, it concerns a path of LATEs—not a trend in average untreated outcomes.
+Only the first term is observed after the event. One assumption sets the missing term equal to the comparable pre-event LATE. With several pre-event estimates, researchers can instead extrapolate the pre-event LATE path linearly or bound plausible departures from that path. The required assumption concerns how the LATE would have evolved—not a trend in average untreated outcomes.
 
-The no-event path also requires exclusion: holding exposure fixed, $Z$ has no effect on the post-event outcome under that path. Its credibility must come from the institutional design because the no-event post-period is unobserved.
+Exclusion must also hold for the counterfactual post-event state: holding exposure fixed, $Z$ has no effect on the outcome that would be observed without the event. The institutional design must support this assumption because that state is unobserved.
 
 No anticipation gives pre-event estimates their counterfactual meaning. Announcements, preparation, or early changes in ambulance behavior can contaminate periods near the acquisition date. In that case, use an earlier reference period or redefine the transition window.
 
@@ -98,16 +98,16 @@ No anticipation gives pre-event estimates their counterfactual meaning. Announce
 
 ![](figures/figure2_missing_late_path.pdf){width=88%}
 
-*Notes:* The factual pre-event and post-event Wald ratios identify period-specific local effects under their respective IV conditions. An event interpretation also requires a common local population. It further requires a continuation for the post-event LATE under the no-event path. The dashed line is schematic; applications may use a flat, linear, or bounded continuation.
+*Notes:* The observed pre-event and post-event Wald ratios identify period-specific local effects under their respective IV conditions. An event interpretation also requires a comparable complier population. Researchers must specify how the post-event LATE would have evolved without the event. The dashed line is schematic; applications may hold the pre-event LATE fixed, extrapolate its earlier path, or bound plausible counterfactual values.
 
 Under the period-specific IV conditions and the event assumptions above, the standardized before-and-after change identifies the target:
 
 \[
-\boxed{\theta^{S,\star}=\beta_1^\star-\beta_0^\star.}
+\boxed{\theta^{\cap,\star}=\beta_1^\star-\beta_0^\star.}
 \tag{4}
 \]
 
-Equation (4) is the core result. The Wald ratios provide the two factual local effects. Stable-complier and sampling assumptions place them on a common population, while the continuation supplies the missing no-event term.
+Equation (4) is the core result. The Wald ratios provide the two observed local effects. Assumptions about outcome observation and complier membership place them on a common population. The assumed counterfactual evolution of the LATE supplies the missing post-event term.
 
 ### 2.4. Identified causal objects
 
@@ -122,75 +122,77 @@ Different parts of the design support different statements. Table 1 gives the us
 
 | Maintained conditions | Supported interpretation |
 |---|---|
-| Instrument-arm outcome and exposure means are well defined | Reduced forms and first stages |
+| Outcome and exposure means by instrument value are well defined | Reduced forms and first stages |
 | Period-specific IV conditions hold | A LATE of exposure for each period's observed compliers |
-| Common support, standardization, and a sampling bridge hold | Comparable factual-period LATEs for the declared target |
-| The local-population link, no anticipation, no-event exclusion, and the continuation also hold | Event-induced change in LATE for the declared local population |
+| Common support and standardization hold, and conditional mean effects are equal for observed and target-population compliers | Average conditional exposure effects for target-population compliers, standardized to the chosen reference distribution |
+| The same complier population is used across periods and event states; no anticipation and exclusion hold; and the counterfactual post-event LATE is correctly specified | Change in the standardized LATE caused by the event for that complier population |
 
 \endgroup
 
-If the final row is difficult to defend, the standardized change in factual-period LATEs remains a useful estimand. Its interpretation is narrower: exposure effects changed for the local populations reached by the instrument. That distinction should be set before estimation, along with the preferred event target and fallback.
+If the final row is difficult to defend, the standardized change in period-specific LATEs remains useful. Its interpretation is narrower: exposure effects changed for the complier populations reached by the instrument. Researchers should choose that interpretation before estimation and state what they will report if the stronger assumptions are not credible.
 
 ## 3. Decomposition and sensitivity analysis
 
 ### 3.1. Diagnostic decomposition
 
-The standardized IV change can differ from the event effect for three distinct reasons. The no-event LATE may have changed. The instrument may reach different compliers, and the observed records may represent different parts of the target universe. The following decomposition separates these sources:
+The standardized IV change can differ from the event effect for three reasons. The LATE may have changed even without the event. The instrument may reach different compliers, and the observed records may represent different parts of the target population. The following decomposition separates these sources:
 
 \[
 \Delta^{IV,\star}
-=\theta^{S,\star}
+=\theta^{\cap,\star}
 +\Delta^{0,\star}
 +B^{C,\star}
 +B^{O,\star}.
 \tag{5}
 \]
 
-Here $\Delta^{0,\star}$ is the no-event change in LATE for the stable population. The term $B^{C,\star}$ captures changes in the local complier population. The term $B^{O,\star}$ captures changes in the gap between observed and target-universe compliers. This accounting identity organizes the threats specific to the nested-event problem. It starts after the period-specific IV conditions and intervention definitions have been defended.
+Here $\Delta^{0,\star}$ is the change in the standardized LATE that would have occurred without the event for the common complier population. The term $B^{C,\star}$ captures changes in the complier population. The term $B^{O,\star}$ captures changes in the difference between observed compliers and compliers in the target population. This accounting identity organizes the additional assumptions needed to interpret a change in period-specific IV estimates as an event effect. It starts after the period-specific IV conditions and intervention definitions have been defended.
 
-Each term suggests different evidence. Historical IV estimates speak to $\Delta^{0,\star}$ when they use the same instrument, exposure, target, and local-population link. Covariate balance and common standardization help diagnose observable composition. Changes in first stages reveal how the size of the complier group moves. Similar first stages, however, can accompany substantial entry and exit. Sampling rates, attrition patterns, and outcome-observation audits inform $B^{O,\star}$.
+Each term suggests different evidence. Historical IV estimates speak to $\Delta^{0,\star}$ when they use the same instrument, exposure, target population, and assumptions about complier comparability. Covariate balance and standardization to the same distribution help diagnose observable composition. Changes in first stages reveal how the size of the complier group moves. Similar first stages, however, can accompany substantial entry and exit. Sampling rates, attrition patterns, and outcome-observation audits inform $B^{O,\star}$.
 
 Sensitivity analysis can place joint bounds on the three gaps. If their absolute values are bounded by $h_0$, $h_C$, and $h_O$, then
 
 \[
-\theta^{S,\star}
+\theta^{\cap,\star}
 \in
 \left[\Delta^{IV,\star}-H,\ \Delta^{IV,\star}+H\right],
 \qquad H=h_0+h_C+h_O.
 \tag{6}
 \]
 
-Joint values are more informative than moving one gap while silently fixing the others at zero. Rambachan and Roth (2023) provide a template for calibrating restrictions on the LATE continuation. Inference must be developed for the resulting IV functional.
+Because the discrepancies may occur together, sensitivity analysis should vary them jointly. Rambachan and Roth (2023) provide a template for calibrating restrictions on the counterfactual LATE path. Inference must be developed for the resulting IV estimand.
 
 ### 3.2. Simulation design and results
 
-Figure 3 uses four repeated cross sections around one event. Every scenario has a valid IV in each period, and the true event-induced change in LATE equals one. The simulations separately alter observed covariate composition, latent complier types, and the no-event path.
+Figure 3 uses four repeated cross sections around one event. Every scenario has a valid IV in each period, and the true change in LATE caused by the event equals one. The simulations separately alter observed covariate composition, unobserved complier types, and the counterfactual LATE path without the event.
 
 \Needspace{0.56\textheight}
 
-**Figure 3. Standardization, population links, and continuation address different problems**
+**Figure 3. Each assumption addresses a different source of bias**
 
 ![](figures/figure3_standardization_and_continuation.png)
 
-*Notes:* Markers show means across 2,000 replications; vertical lines show the 2.5th and 97.5th percentiles. Each period contains 2,500 observations. The dashed line is the true event-induced change in LATE. “Common-standardized” averages over the pre-event complier covariate distribution. “Flat” carries the pre-event LATE forward; “linear” extrapolates from three pre-event LATEs. The accompanying replication materials document the data-generating process, fixed seed, and outputs.\footnote{Replication materials: \url{https://github.com/TejaBurla89/iv_nested_event}.}
+*Notes:* Markers show means across 2,000 replications; vertical lines show the 2.5th and 97.5th percentiles. Each period contains 2,500 observations. The dashed line is the true change in LATE caused by the event. “Standardized” averages over the pre-event complier covariate distribution. “Pre-event LATE held fixed” uses the comparable pre-event LATE as the counterfactual post-event value. “Linear extrapolation” uses three pre-event LATEs. The accompanying replication materials document the data-generating process, fixed seed, and outputs.\footnote{Replication materials: \url{https://github.com/TejaBurla89/iv_nested_event}.}
 
-In the stable-complier scenario, all three estimators average about one. Shifting the observed distribution of $X$ moves the raw estimate to 1.75, while common standardization brings it back to 1.00. Latent complier turnover produces an estimate near 1.80 even after standardization because the observable mix remains stable. Finally, a rising no-event LATE makes the flat continuation average 1.40; the correctly specified linear continuation averages 0.99.
+When the same units comply in all three states, all three estimators average about one. Shifting the observed distribution of $X$ moves the unstandardized estimate to 1.75, while standardizing to the pre-event complier distribution brings it back to 1.00. Turnover in unobserved complier types produces an estimate near 1.80 even after standardization because the observed covariate distribution remains unchanged. Finally, when the LATE would have risen without the event, holding it fixed at its pre-event value produces an estimate of 1.40. Linear extrapolation from the three pre-event LATEs produces 0.99.
 
-These cases isolate the role of each assumption. Standardization handles observed composition, while population links address latent response types. A continuation constructs the missing no-event LATE. Applications need evidence for all three, but the evidence will usually come from different sources.
+These cases isolate the role of each assumption. Standardization holds the observed covariate distribution fixed. Assumptions about complier comparability address changes in unobserved response types. A separate assumption supplies the counterfactual post-event LATE without the event. Applications need evidence for all three, but that evidence will usually come from different sources.
 
 ## 4. Multiple periods and staggered events
 
 ### 4.1. Event-time local average treatment effects
 
-Additional periods turn the pair of Wald ratios into an event-time path of standardized LATEs. Pre-event estimates reveal how the local effect was evolving before the event. They also show how the first stage and common support change. Together, these patterns provide evidence for choosing and calibrating the no-event continuation.
+Additional periods turn the pair of Wald ratios into an event-time path of standardized LATEs. Pre-event estimates reveal how the local effect was evolving before the event. They also show how the first stage and common support change. Together, these patterns provide evidence for specifying how the LATE would have evolved without the event.
 
-The historical path informs the missing post-event counterfactual; the continuation remains a maintained assumption. Low-powered pretrend tests offer limited reassurance, and choosing the continuation because one specification passes a test changes the subsequent inference (Roth 2022). A clear design states the reference period, transition window, continuation, and sensitivity range in advance.
+The historical path informs the missing post-event counterfactual, but its extrapolation beyond the event remains an assumption. Low-powered pretrend tests offer limited reassurance, and choosing an extrapolation because one specification passes a test changes the subsequent inference (Roth 2022). A clear design states the reference period, transition window, counterfactual assumption, and sensitivity range in advance.
 
 ### 4.2. Cohort-specific estimation and aggregation
 
-Staggered timing introduces another source of changing composition: the cohorts contributing to an estimate can vary across event time. Beginning with cohort-by-event-time estimates keeps those changes visible. This sequence also follows the group-time discipline used in modern staggered designs (Callaway and Sant'Anna 2021). Within each cohort, calculate the conditional reduced forms and first stages for every upper-level unit. Next form the supported Wald ratios, standardize them, and average across units. This order preserves the target weights. Pooling reduced forms and first stages before taking a ratio creates first-stage-dependent weights and generally answers a different question.
+Staggered timing introduces another source of changing composition: the cohorts contributing to an estimate can vary across event time. Beginning with cohort-by-event-time estimates keeps those changes visible. This sequence also follows the group-time discipline used in modern staggered designs (Callaway and Sant'Anna 2021). Within each cohort, calculate the conditional reduced forms and first stages for every institution or other event unit. Next form the Wald ratios in covariate strata with adequate support, standardize them, and average across event units.
 
-Next aggregate cohort-specific effects using prespecified weights. A balanced event study retains the same cohort set and cohort weights at every horizon. That fixed mixture improves comparability across event time. Each contributing cohort-period component still needs IV support, sampling support, and a defensible local-population link. When some components lose support, report the unsupported reference mass. Then defend extrapolation or relabel the estimand over the supported set.
+This order preserves the prespecified aggregation weights. Pooling reduced forms and first stages before taking a ratio creates first-stage-dependent weights and generally answers a different question.
+
+Next aggregate cohort-specific effects using prespecified weights. Using the same cohort set and cohort weights at every horizon improves comparability across event time. Each contributing cohort-period estimate still needs adequate first-stage and covariate support, adequate outcome observation, and credible assumptions relating its complier population to the others. When some estimates lose support, report the share of the reference distribution that is no longer represented. Then defend extrapolation or relabel the estimand for the supported set.
 
 Stacked datasets duplicate some original observations across cohort comparisons. Treat those copies as the same sampling information: preserve the original cluster identifiers and rebuild the stacks inside a bootstrap. Calendar-time shocks also deserve attention when they change the exposure contrast, compliance behavior, observation, or instrument validity.
 
@@ -198,19 +200,19 @@ Stacked datasets duplicate some original observations across cohort comparisons.
 
 ### 5.1. Estimation
 
-Before analyzing outcomes, specify the event date, transition window, target-universe rule, instrument construction, and exposure contrast. Also specify the covariates, support rule, reference distribution, sampling bridge, local-population link, and continuation. For staggered designs, add the within-cohort and across-cohort weights.
+Before analyzing outcomes, specify the event date, transition window, target-population rule, instrument construction, and exposure contrast. Also specify the covariates, support rule, reference distribution, outcome-observation requirements, assumptions relating complier populations, and the counterfactual post-event LATE. For staggered designs, add the within-cohort and across-cohort weights.
 
-Estimation then follows Equation (2). Calculate conditional reduced forms and first stages. Form the supported conditional ratios and average them with the declared reference weights. Regression software can recover the primitive contrasts, but the analyst still chooses the target and weighting scheme. A useful implementation check compares the regression output with the direct calculation on the same sample and weights.
+Estimation then follows Equation (2). Calculate conditional reduced forms and first stages. Form conditional Wald ratios where both periods have adequate support, then average them with the chosen reference weights. Regression software can estimate the underlying reduced forms and first stages, but the analyst still chooses the target population and weighting scheme. A useful implementation check compares the regression output with the direct calculation on the same sample and weights.
 
-A generated instrument should rely on predetermined, event-unaffected information. Fix the training population and dates, construction rule, orientation, cutoff, leave-out unit, and treatment of unsupported inputs. When the score is estimated from analysis-linked data, resampling should rebuild the score along with the rest of the estimator. Leave-out construction removes a mechanical part-whole link; substantive independence and exclusion still come from the institutional argument.
+A generated instrument should rely on predetermined information that the event cannot affect. Fix the training population and dates, construction rule, sign, cutoff, which observations or clusters are left out, and treatment of unsupported inputs. If data used in the main analysis also help estimate the score, resampling should rebuild the score along with the rest of the estimator. Leaving the focal observation or cluster out prevents it from contributing mechanically to its own instrument. Independence and exclusion still require an institutional argument.
 
 ### 5.2. A numerical example
 
-Table 2 shows two covariate groups with reference weights 0.60 and 0.40. The standardized LATE rises from 1.68 before the event to 2.78 afterward, a change of 1.10. Under the full set of conditions in Table 1 and a flat no-event path, 1.10 is the event estimate.
+Table 2 shows two covariate groups with reference weights 0.60 and 0.40. The standardized LATE rises from 1.68 before the event to 2.78 afterward, a change of 1.10. Under the full set of conditions in Table 1, including the assumption that the counterfactual post-event LATE equals the pre-event LATE, 1.10 is the event estimate.
 
 \Needspace{0.43\textheight}
 
-**Table 2. From instrument-arm means to the standardized contrast**
+**Table 2. From means by instrument value to the standardized contrast**
 
 | Period | Group | Reference weight | Reduced form | First stage | Wald ratio |
 |---|---:|---:|---:|---:|---:|
@@ -219,27 +221,27 @@ Table 2 shows two covariate groups with reference weights 0.60 and 0.40. The sta
 | Post | A | 0.60 | 0.58 | 0.20 | 2.90 |
 | Post | B | 0.40 | 0.40 | 0.16 | 2.50 |
 
-The pre-event standardized LATE is $0.60(1.80)+0.40(1.50)=1.68$. The post-event value is $0.60(2.90)+0.40(2.50)=2.78$. Table 1 determines the label attached to their difference. Under the first three rows of that table, 1.10 is the standardized change in factual-period LATEs.
+The pre-event standardized LATE is $0.60(1.80)+0.40(1.50)=1.68$. The post-event value is $0.60(2.90)+0.40(2.50)=2.78$. Table 1 determines the interpretation of their difference. Under the first three rows of that table, 1.10 is the standardized change in period-specific LATEs.
 
 ### 5.3. Inference
 
-Inference must address two features of the estimator. First, its components are dependent because they share observations, reference weights, continuations, cohort stacks, and sometimes a generated instrument. Second, each component is a ratio and can become unstable when its first stage is weak. Under strong identification, inference should target the assembled contrast. A full-process cluster bootstrap resamples the original independent units and reconstructs every estimated component, including the reference distribution, cohort stacks, and generated scores.
+Inference must address two features of the estimator. First, its components are dependent because they share observations, reference weights, counterfactual estimates, cohort stacks, and sometimes a generated instrument. Second, each component is a ratio and can become unstable when its first stage is weak. Under strong identification, inference should target the final event contrast. A cluster bootstrap can resample the original independent units and re-estimate every component, including the reference distribution, cohort stacks, and generated scores.
 
-Weak first stages require identification-robust inference for the assembled target. Section E.3 gives an executable conservative projection for fixed finite strata, fixed external weights, and a flat continuation. The procedure works with simultaneous intervals for the reduced forms and first stages. It allows the final confidence set to become unbounded when the data do not rule out a zero denominator. Estimated weights, selected support, and staggered aggregation require procedures developed for those larger functionals. If no such procedure is available, report the primitive moments and describe conventional intervals as strong-identification approximations.
+Weak first stages require identification-robust inference for the final event estimand. Section E.3 gives an executable conservative projection for fixed finite strata, fixed external weights, and the assumption that the counterfactual post-event LATE equals the pre-event LATE. The procedure works with simultaneous intervals for the reduced forms and first stages. It allows the final confidence set to become unbounded when the data do not rule out a zero denominator. Estimated weights, selected support, and staggered aggregation require procedures developed for those larger estimators. If no such procedure is available, report the reduced-form and first-stage moments and describe conventional intervals as strong-identification approximations.
 
-Clustering follows the source of assignment and dependence, often ambulance company, market, hospital, or a combination rather than the patient row alone. Few-cluster and weak-IV problems require separate remedies. A wild cluster bootstrap may improve primitive-moment inference with few clusters under its conditions (Cameron, Gelbach, and Miller 2008). Resampling a conventional ratio statistic does not make it identification robust.
+Clustering follows the source of assignment and dependence, often ambulance company, market, hospital, or a combination rather than the patient row alone. Few-cluster and weak-IV problems require separate remedies. A wild cluster bootstrap may improve inference for the reduced forms and first stages with few clusters under its conditions (Cameron, Gelbach, and Miller 2008). Resampling a conventional ratio statistic does not make it identification robust.
 
 ### 5.4. Reporting
 
-Readers should be able to reconstruct every reported event estimate. Report the instrument-arm means, reduced forms, first stages, reference weights, and standardized period-specific ratios. Also report support losses, observation rates, retained reference mass, continuation inputs, cohort weights, and the clustering structure. For a generated instrument, describe the training sample and whether inference rebuilds the construction.
+Readers should be able to reconstruct every reported event estimate. Report the outcome and exposure means by instrument value, reduced forms, first stages, reference weights, and standardized period-specific ratios. Separately report support losses, observation rates, and the share of the reference distribution retained. Document the inputs used to estimate the counterfactual LATE, cohort weights, and clustering structure. For a generated instrument, describe the training sample and whether inference rebuilds its construction.
 
-The final label should track Table 1. Full support for the identification argument warrants “event-induced change in LATE for stable compliers.” Weaker population or path evidence warrants “standardized change in period-specific LATEs.” Precision describes how much the sample reveals about the chosen estimand.
+The final description should track Table 1. Full support for the identification argument warrants “change in the standardized LATE caused by the event for units who would comply in all three states.” Weaker evidence about complier comparability or the counterfactual LATE warrants “standardized change in period-specific LATEs.” Precision describes how much the sample reveals about the chosen estimand.
 
 ## 6. Conclusion
 
-A lower-level IV addresses exposure selection within each period, but an event question asks for more than two separately valid IV estimates. The estimates must refer to a common target population and a comparable local population. The analysis must also supply a credible path for how the LATE would have evolved without the event. Treating these requirements as distinct parts of the design clarifies which conclusions come from the data and which depend on assumptions about populations and counterfactual change.
+A within-period IV addresses exposure selection, but an event question asks for more than two separately valid IV estimates. The estimates must refer to a common target population and comparable complier populations. The analysis must also specify how the LATE would have evolved without the event. Separating these requirements clarifies which conclusions come from the data and which depend on assumptions about populations and counterfactual change.
 
-When these links are convincing, the standardized change in Wald ratios has a clear interpretation as an event-induced change in LATE. When the links remain uncertain, period-specific LATEs and sensitivity ranges provide a more defensible account of the evidence. This reporting strategy preserves the value of the IV estimates while making the additional assumptions behind an event interpretation visible to readers.
+When these assumptions are convincing, the standardized change in Wald ratios identifies the change in the standardized LATE caused by the event. When they remain uncertain, period-specific LATEs and sensitivity ranges provide a more defensible account of the evidence. This reporting strategy preserves the value of the IV estimates while making the additional assumptions behind an event interpretation visible to readers.
 
 \vspace{2.2em}
 
@@ -249,7 +251,7 @@ When these links are convincing, the standardized change in Wald ratios has a cl
 
 **Suggested citation**
 
-Burla, Sriteja. 2026. *Instrumental Variables in Nested Event Designs: Endogenous Exposure and Changes in Local Average Treatment Effects*. Version 1.0, August 2026.
+Burla, Sriteja. 2026. *Instrumental Variables Before and After an Event: Endogenous Exposure and Changes in Local Average Treatment Effects*. Version 1.0, August 2026.
 
 \newpage
 
@@ -257,11 +259,11 @@ Burla, Sriteja. 2026. *Instrumental Variables in Nested Event Designs: Endogenou
 
 ## A. Setup and within-period IV
 
-Fix one upper-level unit and let $\mathcal U$ be its target universe. Membership in $\mathcal U$ is determined before the instrument and the event. Event path $a\in\{0,E\}$ records whether the event occurs. Let $a_0=0$ denote the common pre-event path and $a_1=E$ the factual post-event path.
+Fix one institution or other event unit and let $\mathcal U$ be its target population. Membership in $\mathcal U$ is determined before the instrument and the event. Let $a\in\{0,E\}$ index whether the event occurs by the post-event date. At $t=1$, $a=E$ is observed and $a=0$ is counterfactual. Under no anticipation, stated in Section B.2, the two event paths agree at $t=0$. We therefore write $a_0=0$ and $a_1=E$ for the observed states.
 
-For lower-level unit $i$ in period $t$, let $D_{it}(a,z)\in\{0,1\}$ be potential exposure under binary instrument value $z$. Let $Y_{it}(a,d)$ be the potential outcome under exposure $d$. This notation imposes exclusion: once exposure is fixed, the instrument has no further effect on the outcome. Factual-period exclusion belongs to the period-specific IV argument. Extending exclusion to the unobserved post-event no-event path requires a separate maintained assumption.
+For individual $i$ in period $t$, let $D_{it}(a,z)\in\{0,1\}$ be potential exposure under binary instrument value $z$. Let $Y_{it}(a,d)$ be the potential outcome under exposure $d$. This notation imposes exclusion: once exposure is fixed, the instrument has no further effect on the outcome. Exclusion in the observed periods belongs to the period-specific IV argument. Extending it to the counterfactual post-event state without the event requires a separate assumption.
 
-Under the positive orientation, define the complier set and exposure effect as
+Use the same instrument coding in every period, with $z=1$ denoting the value intended to increase exposure. Under monotonicity, $D_{it}(a,1)\geq D_{it}(a,0)$. Define the complier set and exposure effect as
 
 \[
 \mathcal C_t(a)=\{i\in\mathcal U:D_{it}(a,1)>D_{it}(a,0)\},
@@ -270,17 +272,17 @@ Under the positive orientation, define the complier set and exposure effect as
 \tag{S.1}
 \]
 
-Under the usual binary-IV conditions, Equation (1) identifies the conditional mean exposure effect among factual-period observed compliers. This is the standard LATE result (Imbens and Angrist 1994), which the supplement takes as its starting point. Section 2.1 discusses period-by-period validity and reporting.
+Under the usual binary-IV conditions, Equation (1) identifies the conditional mean exposure effect among observed compliers in that period. This is the standard LATE result (Imbens and Angrist 1994), which the supplement takes as its starting point. Section 2.1 discusses period-by-period validity and reporting.
 
 The indicator $O_{it}$ records that an eligible unit's outcome is observed. The benchmark assumes that observation does not change with the instrument or exposure, conditional on predetermined covariates. If survival, attrition, or missingness responds to either one, the application needs a separate selection argument.
 
 ## B. Standardization and event identification
 
-### B.1. Common standardization and sampling
+### B.1. Standardization and outcome observation
 
-Let $\mathcal X^\star$ contain the covariate values supported in both factual periods. Use the reference distribution $F_X^\star$ defined in Section 2.2.
+Let $\mathcal X^\star$ contain the covariate values supported in both observed periods. Use the reference distribution $F_X^\star$ defined in Section 2.2.
 
-The sampling bridge equates the conditional mean effect among observed compliers with that among compliers in the target universe:
+To extend the estimand to the target population, assume that the conditional mean effect among observed compliers equals that among all compliers in the target population:
 
 \[
 E[\tau_{it}(a_t)\mid i\in\mathcal C_t(a_t),X_i=x,O_{it}=1]
@@ -288,7 +290,7 @@ E[\tau_{it}(a_t)\mid i\in\mathcal C_t(a_t),X_i=x,O_{it}=1]
 \tag{S.2}
 \]
 
-Under this bridge, the standardized Wald ratio identifies the factual target-universe LATE:
+Under Equation (S.2), the standardized Wald ratio identifies the average conditional exposure effect for target-population compliers, standardized to $F_X^\star$:
 
 \[
 \beta_t^\star
@@ -300,45 +302,53 @@ E[\tau_{it}(a_t)\mid i\in\mathcal C_t(a_t),X_i]
 
 Equation (S.2) is a mean restriction. A stronger assumption could transport the joint distribution of potential exposures and outcomes. Either version requires positive observation probability wherever $F_X^\star$ assigns weight.
 
-### B.2. Common local population and no-event path
+### B.2. A common complier population and the post-event counterfactual
 
-Define the stable core as the units who comply before the event and under both post-event paths:
+Define $\mathcal C^\cap$ as the intersection of the complier sets before the event and under both post-event states:
 
 \[
-\mathcal C^S
+\mathcal C^\cap
 =\mathcal C_0(0)\cap\mathcal C_1(0)\cap\mathcal C_1(E).
 \tag{S.4}
 \]
 
-The equality benchmark strengthens this definition. It assumes that all three complier sets equal $\mathcal C^S$ within every value of $X$ receiving positive reference weight.
+The stronger assumption used for the main result is that all three complier sets equal $\mathcal C^\cap$ within every value of $X$ receiving positive reference weight.
 
 For this population, define
 
 \[
-L_t^{a,S,\star}
+L_t^{a,\cap,\star}
 =E_{F_X^\star}\!\left[
-E[\tau_{it}(a)\mid i\in\mathcal C^S,X_i]
+E[\tau_{it}(a)\mid i\in\mathcal C^\cap,X_i]
 \right].
 \tag{S.5}
 \]
 
-No anticipation gives the pre-event estimate its no-event meaning. A prespecified continuation maps the comparable pre-event LATE history into the missing $L_1^{0,S,\star}$. Under the flat continuation, $L_1^{0,S,\star}=L_0^{0,S,\star}$.
+No anticipation requires pre-event potential exposure and outcomes to be invariant to the future event path:
 
-The no-event post-period path must also preserve exclusion. Assessing this restriction requires institutional evidence about the unobserved path.
+\[
+D_{i0}(E,z)=D_{i0}(0,z),
+\qquad
+Y_{i0}(E,d)=Y_{i0}(0,d)
+\]
 
-**Identification result.** Assume period-specific IV validity, the sampling bridge, the common-population condition, no anticipation, no-event exclusion, and a flat continuation. Then
+for every relevant $z$ and $d$. These equalities justify using the no-event notation for the observed pre-event quantities in Equations (S.4)--(S.6). A prespecified rule then maps the comparable pre-event LATE history into the missing $L_1^{0,\cap,\star}$. The simplest rule assumes $L_1^{0,\cap,\star}=L_0^{0,\cap,\star}$.
+
+Exclusion must also hold for the counterfactual post-event state without the event. Assessing this restriction requires institutional evidence because that state is unobserved.
+
+**Identification result.** Assume period-specific IV validity and Equation (S.2). Assume that the three complier sets are equal, no anticipation holds, exclusion extends to the counterfactual post-event state, and the counterfactual post-event LATE equals the pre-event LATE. Then
 
 \[
 \beta_1^\star-\beta_0^\star
-=L_1^{E,S,\star}-L_0^{0,S,\star}
-=L_1^{E,S,\star}-L_1^{0,S,\star}
-=\theta^{S,\star}.
+=L_1^{E,\cap,\star}-L_0^{0,\cap,\star}
+=L_1^{E,\cap,\star}-L_1^{0,\cap,\star}
+=\theta^{\cap,\star}.
 \tag{S.6}
 \]
 
-This equality is the complete identification argument. A general continuation replaces $\beta_0^\star$ with the prespecified value constructed from the pre-event LATE history.
+This equality is the complete identification argument. A different assumption about the counterfactual LATE replaces $\beta_0^\star$ with a prespecified value constructed from the pre-event LATE history.
 
-### B.3. A weaker population link
+### B.3. Allowing the complier population to change
 
 Equality of complier sets is a convenient benchmark. The algebra instead relies on equality of the relevant mean effects. The following conditions state exactly which effects must transfer across groups. For any group $G$, write
 
@@ -347,41 +357,45 @@ M_{t,a}^{G}(x)
 =E[\tau_{it}(a)\mid i\in G,X_i=x].
 \]
 
-For the two-period design, the required conditional mean links are
+For the two-period design, the required conditional mean equalities are
 
 \[
 \begin{aligned}
 M_{0,0}^{\mathcal C_0(0)}(x)
 &=M_{0,0}^{\mathcal C_1(0)}(x),\\
 M_{1,0}^{\mathcal C_1(0)}(x)
-&=M_{1,0}^{\mathcal C^S}(x),\\
+&=M_{1,0}^{\mathcal C^\cap}(x),\\
 M_{1,E}^{\mathcal C_1(E)}(x)
-&=M_{1,E}^{\mathcal C^S}(x).
+&=M_{1,E}^{\mathcal C^\cap}(x).
 \end{aligned}
 \tag{S.7}
 \]
 
-The first equality places the pre-event effect on the population that would comply after the event under the no-event path. The continuation then carries that population's effect forward; under a flat path, $M_{1,0}^{\mathcal C_1(0)}(x)=M_{0,0}^{\mathcal C_1(0)}(x)$. The second and third equalities place the counterfactual and factual post-event effects on stable compliers. These restrictions apply wherever $F_X^\star$ assigns weight, and stable compliers must have positive probability there. This route permits turnover in complier identities. Its credibility depends on a substantive reason why mean effects transfer across the latent groups.
+The first equality assigns the pre-event mean effect to the population that would comply after the event if the event did not occur. The assumption about the counterfactual LATE then carries that population's effect forward. If the counterfactual post-event mean equals its pre-event value, $M_{1,0}^{\mathcal C_1(0)}(x)=M_{0,0}^{\mathcal C_1(0)}(x)$.
+
+The second and third equalities assign the counterfactual and observed post-event mean effects to $\mathcal C^\cap$. The complier populations may therefore contain different units.
+
+These restrictions apply wherever $F_X^\star$ assigns weight, and $\mathcal C^\cap$ must have positive probability there. The assumptions require a substantive reason why the conditional mean effects would nevertheless be equal.
 
 ## C. Decomposition and sensitivity
 
 ### C.1. Decomposition
 
-Let $m_t^O$ denote the standardized LATE among observed factual compliers. Under period-specific IV validity, $m_t^O=\beta_t^\star$. Let $m_t^U$ denote the corresponding LATE among factual compliers in the target universe. The three discrepancies in Equation (5) are
+Let $m_t^O$ denote the standardized average conditional effect among observed compliers in period $t$. Under period-specific IV validity, $m_t^O=\beta_t^\star$. Let $m_t^U$ denote the corresponding standardized average among all period-$t$ compliers in the target population. The three discrepancies in Equation (5) are
 
 \[
 \begin{aligned}
 \Delta^{0,\star}
-&=L_1^{0,S,\star}-L_0^{0,S,\star},\\
+&=L_1^{0,\cap,\star}-L_0^{0,\cap,\star},\\
 B^{C,\star}
-&=(m_1^U-L_1^{E,S,\star})-(m_0^U-L_0^{0,S,\star}),\\
+&=(m_1^U-L_1^{E,\cap,\star})-(m_0^U-L_0^{0,\cap,\star}),\\
 B^{O,\star}
 &=(m_1^O-m_1^U)-(m_0^O-m_0^U).
 \end{aligned}
 \tag{S.8}
 \]
 
-Adding and subtracting these intermediate effects gives Equation (5). A flat continuation sets $\Delta^{0,\star}=0$. The equality or mean-transport route sets $B^{C,\star}=0$. The sampling bridge sets $B^{O,\star}=0$.
+Adding and subtracting these intermediate effects gives Equation (5). Assuming that the LATE would have remained unchanged without the event sets $\Delta^{0,\star}=0$. Equality of the complier sets, or the conditional mean equalities in Section B.3, sets $B^{C,\star}=0$. Equation (S.2) sets $B^{O,\star}=0$.
 
 ### C.2. Sensitivity region
 
@@ -396,13 +410,13 @@ Let $\mathcal H$ be a prespecified set of plausible triples $(\delta,b_C,b_O)$ f
 \tag{S.9}
 \]
 
-Equation (6) is the symmetric rectangular case. The set $\mathcal H$ can instead impose asymmetric bounds, signs, or dependence across the discrepancies. Historical IV paths can inform its continuation component when they use the same instrument, exposure, target, reference distribution, and local-population link.
+Equation (6) is the symmetric rectangular case. The set $\mathcal H$ can instead impose asymmetric bounds, signs, or dependence across the discrepancies. Historical IV estimates can inform the counterfactual LATE component when they use the same instrument, exposure, target population, reference distribution, and assumptions about complier comparability.
 
 ## D. Multiple periods and staggered events
 
 The multiple-period design applies the two-period argument separately to each cohort and event-time component. The main additional issue is how those components are aggregated.
 
-Index event cohorts by $c$, upper-level units by $h$, and event time by $k$. For each component, let $\rho_{hck}(x)$ and $\pi_{hck}(x)$ denote the conditional reduced form and first stage. Given the declared reference distribution $F_{X,hc}^\star$, the factual standardized LATE is
+Index event cohorts by $c$, institutions or other event units by $h$, and event time by $k$. For each component, let $\rho_{hck}(x)$ and $\pi_{hck}(x)$ denote the conditional reduced form and first stage. Given the chosen reference distribution $F_{X,hc}^\star$, the observed period-specific standardized LATE is
 
 \[
 \beta_{hck}^\star
@@ -412,17 +426,17 @@ Index event cohorts by $c$, upper-level units by $h$, and event time by $k$. For
 \tag{S.10}
 \]
 
-At a reported post-event horizon, define $\mathcal C_{hck}^S=\mathcal C_{hck}(0)\cap\mathcal C_{hck}(E)$ as the stable complier population. Let $g_{hck}$ be the prespecified no-event LATE, constructed for the same local population and reference distribution from comparable pre-event LATEs. Period-specific IV validity and the sampling bridge identify the factual LATE. The horizon-specific population link places the factual and no-event effects on $\mathcal C_{hck}^S$. No anticipation, no-event exclusion, and a correct continuation then give
+At a reported post-event horizon, define $\mathcal C_{hck}^\cap=\mathcal C_{hck}(0)\cap\mathcal C_{hck}(E)$. Let $g_{hck}$ be the prespecified counterfactual LATE without the event, constructed for the same complier population and reference distribution from comparable pre-event LATEs. Period-specific IV validity and the outcome-observation assumption in Equation (S.2) identify the observed average conditional effect for target-population compliers, standardized to $F_{X,hc}^\star$. The required conditional mean equalities place the observed and counterfactual effects on $\mathcal C_{hck}^\cap$. No anticipation, exclusion in the counterfactual state, and a correctly specified $g_{hck}$ then give
 
 \[
 \beta_{hck}^\star-g_{hck}
-=\theta_{hck}^{S,\star}.
+=\theta_{hck}^{\cap,\star}.
 \tag{S.11}
 \]
 
-The local population in (S.11) may change with $k$. Interpreting the entire event-study path for one fixed local population requires a stronger link to an all-horizon intersection. Support is also horizon specific. It must hold in the reported period and in every period used to form $F_{X,hc}^\star$ or $g_{hck}$.
+The complier population in (S.11) may change with $k$. Interpreting the entire event-study path for one fixed complier population requires using the intersection across all reported horizons. Support is also horizon specific. It must hold in the reported period and in every period used to form $F_{X,hc}^\star$ or $g_{hck}$.
 
-Let $\mathcal G_k$ contain the cohorts contributing at horizon $k$, and let $\mathcal H_c$ contain the upper-level units in cohort $c$. The nonnegative cohort weights satisfy $\sum_{c\in\mathcal G_k}\omega_{c\mid k}=1$. Within each cohort, $\sum_{h\in\mathcal H_c}\omega_{hc\mid k}=1$. Aggregation gives
+Let $\mathcal G_k$ contain the cohorts contributing at horizon $k$, and let $\mathcal H_c$ contain the event units in cohort $c$. The nonnegative cohort weights satisfy $\sum_{c\in\mathcal G_k}\omega_{c\mid k}=1$. Within each cohort, $\sum_{h\in\mathcal H_c}\omega_{hc\mid k}=1$. Aggregation gives
 
 \[
 \theta_k
@@ -435,7 +449,7 @@ Let $\mathcal G_k$ contain the cohorts contributing at horizon $k$, and let $\ma
 \tag{S.12}
 \]
 
-Pooling primitive moments before taking a ratio changes the weights. For generic components $j$ with declared weights $a_j$,
+Pooling reduced-form and first-stage moments before taking a ratio changes the weights. For generic components $j$ with prespecified weights $a_j$,
 
 \[
 \frac{\sum_j a_j\rho_j}{\sum_j a_j\pi_j}
@@ -445,15 +459,15 @@ Pooling primitive moments before taking a ratio changes the weights. For generic
 \tag{S.13}
 \]
 
-The pooled ratio therefore uses first-stage-dependent weights rather than the weights in (S.12). A balanced window fixes the cohort set and weights across horizons. Trimming an unsupported component changes the target; report the cohort set, weights, and retained reference mass.
+The pooled ratio therefore uses first-stage-dependent weights rather than the weights in (S.12). Keeping $\mathcal G_k$ and the cohort weights fixed across $k$ prevents changes in cohort composition from changing the target across horizons. Trimming a component without adequate support changes the target; report the cohort set, weights, and share of the reference distribution retained.
 
 ## E. Estimation and inference
 
 ### E.1. Finite-strata estimator
 
-Estimation follows the estimand in two stages. First calculate the supported period-specific Wald ratios. Then average them using the declared reference weights.
+Estimation follows the estimand in two stages. First calculate period-specific Wald ratios in strata with adequate support. Then average them using the chosen reference weights.
 
-For finite covariate strata $x\in\mathcal X^\star$, let $\widehat p_x^\star$ denote the reference weight. Let $\widehat g_1$ denote the estimated no-event continuation. The plug-in estimator is
+For finite covariate strata $x\in\mathcal X^\star$, let $\widehat p_x^\star$ denote the reference weight. Let $\widehat g_1$ denote the estimated counterfactual post-event LATE without the event. The plug-in estimator is
 
 \[
 \widehat\beta_t^\star
@@ -465,7 +479,7 @@ For finite covariate strata $x\in\mathcal X^\star$, let $\widehat p_x^\star$ den
 \tag{S.14}
 \]
 
-Under the flat two-period benchmark, $\widehat g_1=\widehat\beta_0^\star$. A general continuation may use several pre-event estimates. Apply the support rule and weights exactly as defined by the target.
+Under the simplest two-period assumption, $\widehat g_1=\widehat\beta_0^\star$. A different counterfactual assumption may use several pre-event estimates. Apply the support rule and weights exactly as defined by the target population.
 
 For the default pre-event complier distribution, let $\widehat f_0(x)$ be the empirical pre-event covariate mass on the supported strata. Estimate the reference weights by
 
@@ -484,23 +498,23 @@ Substituting (S.15) into the pre-event component cancels the cell-specific first
 {\sum_v\widehat f_0(v)\widehat\pi_0(v)}.
 \]
 
-The post-event component still contains the supported ratios $\widehat\rho_1(x)/\widehat\pi_1(x)$. When the reference weights are estimated from the analysis data, strong-identification inference should rebuild them. The procedure in Section E.3 instead treats the reference weights as fixed and external.
+The post-event component still contains the ratios $\widehat\rho_1(x)/\widehat\pi_1(x)$ for supported strata. When the reference weights are estimated from the analysis data, strong-identification inference should re-estimate them. The procedure in Section E.3 instead treats the reference weights as fixed and external.
 
 ### E.2. Strong-identification inference
 
-A full-process bootstrap resamples the original independent units and rebuilds the estimator. Rebuild the reference distribution, generated instrument, cohort stacks, continuation, and aggregation weights when they are estimated. This preserves covariance among the parts of $\widehat\theta$.
+A bootstrap for the complete estimation procedure resamples the original independent units and rebuilds the estimator. Re-estimate the reference distribution, generated instrument, cohort stacks, counterfactual LATE, and aggregation weights when they are estimated from the data. This preserves covariance among the parts of $\widehat\theta$.
 
-Prespecified fixed support can remain fixed across resamples. Data-dependent support requires inference that accommodates the selection step and a clear label for the resulting realized target.
+Prespecified fixed support can remain fixed across resamples. Data-dependent support requires inference that accommodates the selection step and a clear description of the population represented after selection.
 
-Each resample should return the final contrast, not a collection of component estimates later treated as independent. The bootstrap distribution of the rebuilt contrast supplies its standard error and confidence interval under the maintained strong-identification conditions. For an event-time path, rebuild every horizon in the same resample. Pointwise intervals use the horizon-specific distributions; a simultaneous band must use their joint distribution.
+Each resample should return the final contrast, not a collection of component estimates later treated as independent. The rebuilt estimates preserve covariance among the components and provide the joint bootstrap distribution. State how that distribution is converted into the reported confidence interval. For an event-time path, rebuild every horizon in the same resample. Pointwise intervals use the horizon-specific distributions; a simultaneous band must use their joint distribution.
 
 A sandwich variance must use stacked scores for the exact average-of-ratios functional. A ratio of averaged reduced forms and first stages has a different influence function because it is a different estimand.
 
 ### E.3. Weak-instrument inference
 
-This section provides one deliberately narrow procedure. It applies to one pre-event period, one post-event period, fixed finite strata, fixed external reference weights, and a flat continuation. The procedure can be implemented directly. Its scope is narrower than the full set of estimators in this guide.
+This section provides one deliberately narrow procedure. It applies to one pre-event period, one post-event period, fixed finite strata, fixed external reference weights, and the assumption that the counterfactual post-event LATE equals the pre-event LATE. The procedure can be implemented directly. Its scope is narrower than the full set of estimators in this guide.
 
-Suppose there are $K$ positively weighted strata and $m=4K$ primitive reduced-form and first-stage moments. For each primitive moment $q_j$, construct the interval
+Suppose there are $K$ positively weighted strata and $m=4K$ reduced-form and first-stage moments. For each moment $q_j$, construct the interval
 
 \[
 \mathcal I_j=
@@ -527,25 +541,25 @@ Next project each period-stratum reduced-form interval through its first-stage i
 
 This construction is conservative because it ignores covariance that could tighten the joint set. Weak first stages widen the reported set and can make it unbounded. For the fixed external weights in the worked files supplied with this guide, the point estimate is 1.00 and the conservative 95 percent set is approximately $[-1.37,3.50]$. The example illustrates how an apparently clear point estimate can coexist with limited information about the event contrast.
 
-The first-stage intervals also discipline interpretation. A negative point estimate is a warning rather than a test of the population orientation assumption. An interval that spans zero is weak and inconclusive. An interval wholly at or below zero contradicts the declared positive orientation at the reported confidence level and stops that causal interpretation unless the design is redefined and defended.
+The first-stage intervals also inform interpretation. A negative point estimate is a warning rather than a test of monotonicity. An interval that spans zero is weak and inconclusive. If an interval lies wholly at or below zero, the data contradict the assumed positive first stage at the reported confidence level. The causal interpretation must then stop unless the instrument is recoded or the design is redefined and defended.
 
-The companion implementation reproduces Equations (S.16)--(S.17), the worked input, and the reported result. Its scope excludes estimated reference weights, data-dependent strata or support, flexible covariates, nonlinear continuations, overlapping cohort stacks, and estimated cohort weights. Those cases require identification-robust inference for the exact functional. If no justified procedure is available, report the reduced forms and first stages and label conventional intervals as strong-identification approximations. Anderson--Rubin procedures remain useful for suitable component equations; valid coverage for their dependent difference requires a joint construction (Anderson and Rubin 1949; Andrews 2022).
+The companion implementation reproduces Equations (S.16)--(S.17), the worked input, and the reported result. Its scope excludes estimated reference weights, data-dependent strata or support, flexible covariates, nonlinear extrapolation of the counterfactual LATE, overlapping cohort stacks, and estimated cohort weights. Those cases require identification-robust inference for the estimator actually used. If no justified procedure is available, report the reduced forms and first stages and label conventional intervals as strong-identification approximations. Anderson--Rubin procedures remain useful for suitable component equations; valid coverage for their dependent difference requires a joint construction (Anderson and Rubin 1949; Andrews 2022).
 
 ### E.4. Dependence and stacked data
 
 Variance estimation should follow assignment, sampling, event timing, and instrument construction. Repeated observations on one person share a contribution. So do duplicate appearances created by cohort stacking. Preserve the original cluster identifiers and rebuild stacks within each resample. With few independent clusters, use a procedure justified for that sampling structure.
 
-Few-cluster correction and weak-IV robustness address different failures. A cluster bootstrap of a conventional ratio statistic remains a strong-identification procedure. Likewise, the projection in Section E.3 requires credible primitive-moment intervals and does not repair few-cluster size distortion by itself.
+Few-cluster correction and weak-IV robustness address different failures. A cluster bootstrap of a conventional ratio statistic remains a strong-identification procedure. Likewise, the projection in Section E.3 requires credible intervals for the reduced-form and first-stage moments and does not repair few-cluster size distortion by itself.
 
 \Needspace{0.22\textheight}
 
 ### E.5. Generated instruments
 
-A score learned in an external sample or a prespecified pre-analysis period can be treated as fixed when the application defends conditioning on the realized map. Its input definition, scale, orientation, and any cutoff should remain the same across periods. These features determine the encouragement intervention and therefore the complier population.
+If the analysis conditions on an external training sample and its estimated scoring rule, a score learned in that sample can be treated as fixed. The resulting inference is conditional on the external sample. Unconditional inference must also account for uncertainty from estimating the scoring rule. The rule's input definition, scale, sign, and any cutoff should remain the same across periods. These features determine the encouragement intervention and therefore the complier population.
 
-When analysis-linked random data help construct the score, resample the original independent units and rebuild the training sample, score, cutoff, and assignment rule. The leave-out unit should match the relevant source of dependence. Omitting only the focal observation may be too narrow when patients share an ambulance company, market, event unit, or training cluster. Leave-out construction removes a mechanical part-whole link; independence and exclusion still require an institutional argument.
+When data used in the main analysis also help construct the score, resample the original independent units and rebuild the training sample, score, cutoff, and assignment rule. Leave out observations at the level that generates dependence. Omitting only the focal observation may be too narrow when patients share an ambulance company, market, event unit, or training cluster. Leaving out the relevant observation or cluster prevents it from contributing mechanically to its own instrument. Independence and exclusion still require an institutional argument.
 
-New assignment sources or input patterns may appear after the event. A prespecified rule can classify them as unsupported, map them using supported predetermined features, or place them in a separately labeled updated-instrument analysis. Retraining the primary score on post-event exposure choices can make the instrument respond to the event. Report score support, instrument-arm shares, first stages, and unsupported reference mass by period and cohort.
+New assignment sources or input patterns may appear after the event. A prespecified rule can classify them as unsupported, map them using supported predetermined features, or examine them separately using an instrument re-estimated after the event. Retraining the primary score on post-event exposure choices can make the instrument respond to the event. Report score support, shares by instrument value, first stages, and the share of the reference distribution lacking support by period and cohort.
 
 \begingroup
 \small

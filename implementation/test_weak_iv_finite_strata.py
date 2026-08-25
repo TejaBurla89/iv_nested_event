@@ -23,15 +23,15 @@ class FiniteStrataProjectionTests(unittest.TestCase):
         ]
         result = project(rows, alpha=0.05)
         self.assertEqual(
-            result["first_stage_orientation"]["point_estimate_status"],
+            result["first_stage_signs"]["point_estimate_status"],
             "positive",
         )
         self.assertEqual(
-            result["first_stage_orientation"]["simultaneous_interval_assessment"],
-            "consistent_with_declared_positive_orientation",
+            result["first_stage_signs"]["simultaneous_interval_assessment"],
+            "consistent_with_positive_first_stages",
         )
         self.assertFalse(
-            result["first_stage_orientation"]["causal_interpretation_stop"]
+            result["first_stage_signs"]["causal_interpretation_stop"]
         )
 
     def test_weak_required_first_stage_returns_all_real(self):
@@ -52,10 +52,10 @@ class FiniteStrataProjectionTests(unittest.TestCase):
         result = project(rows, alpha=0.05)
         self.assertTrue(result["confidence_set"]["all_real"])
         self.assertFalse(
-            result["first_stage_orientation"]["causal_interpretation_stop"]
+            result["first_stage_signs"]["causal_interpretation_stop"]
         )
         self.assertEqual(
-            result["first_stage_orientation"]["simultaneous_interval_assessment"],
+            result["first_stage_signs"]["simultaneous_interval_assessment"],
             "inconclusive_because_an_interval_spans_zero",
         )
 
@@ -76,15 +76,15 @@ class FiniteStrataProjectionTests(unittest.TestCase):
         ]
         result = project(rows, alpha=0.05)
         self.assertEqual(
-            result["first_stage_orientation"]["point_estimate_status"],
+            result["first_stage_signs"]["point_estimate_status"],
             "mixed_or_zero",
         )
         self.assertTrue(
-            result["first_stage_orientation"]["causal_interpretation_stop"]
+            result["first_stage_signs"]["causal_interpretation_stop"]
         )
         self.assertEqual(
-            result["first_stage_orientation"]["simultaneous_interval_assessment"],
-            "contradicts_declared_positive_orientation",
+            result["first_stage_signs"]["simultaneous_interval_assessment"],
+            "contradicts_positive_first_stage_direction",
         )
 
     def test_noisy_negative_point_sign_is_warning_not_causal_stop(self):
@@ -104,15 +104,15 @@ class FiniteStrataProjectionTests(unittest.TestCase):
         ]
         result = project(rows, alpha=0.05)
         self.assertEqual(
-            result["first_stage_orientation"]["point_estimate_status"],
+            result["first_stage_signs"]["point_estimate_status"],
             "mixed_or_zero",
         )
         self.assertEqual(
-            result["first_stage_orientation"]["simultaneous_interval_assessment"],
+            result["first_stage_signs"]["simultaneous_interval_assessment"],
             "inconclusive_because_an_interval_spans_zero",
         )
         self.assertFalse(
-            result["first_stage_orientation"]["causal_interpretation_stop"]
+            result["first_stage_signs"]["causal_interpretation_stop"]
         )
 
     def test_zero_weight_row_is_rejected(self):

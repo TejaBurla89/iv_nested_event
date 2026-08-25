@@ -1,8 +1,8 @@
-# Instrumental Variables in Nested Event Designs
+# Instrumental Variables Before and After an Event
 
-This repository contains a concise guide to event designs that compare local average treatment effects identified by a lower-level instrument before and after an upper-level event. Hospital acquisition and ambulance assignment provide the motivating example.
+This repository contains a guide to comparing local average treatment effects identified by a within-period instrument before and after an event. Hospital acquisition and ambulance assignment provide the motivating example.
 
-The guide separates three tasks that are often combined implicitly: standardizing the observed covariate distribution, linking the local complier populations across periods and event paths, and constructing the missing post-event LATE under the no-event path.
+The guide separates three tasks that are often combined implicitly: standardizing each period to the same observed covariate distribution, assessing whether the IV reaches comparable complier populations, and specifying how the LATE would have evolved without the event.
 
 ## Guide
 
@@ -12,7 +12,7 @@ The guide separates three tasks that are often combined implicitly: standardizin
 
 ## Weak-instrument implementation
 
-Section E.3 supplies a conservative projection for one deliberately narrow case: one pre-event period, one post-event period, fixed finite strata, fixed external reference weights, and a flat continuation. The implementation works with simultaneous intervals for the primitive reduced forms and first stages. It returns an unbounded set when the data permit a zero denominator.
+Section E.3 supplies a conservative projection for one deliberately narrow case: one pre-event period, one post-event period, fixed finite strata, fixed external reference weights, and the assumption that the counterfactual post-event LATE equals the pre-event LATE. The implementation works with simultaneous intervals for the reduced forms and first stages. It returns an unbounded set when the data permit a zero denominator.
 
 The `implementation/` directory contains the runnable program, a worked CSV input, its expected result, and unit tests. Run the example and tests from the repository root:
 
@@ -24,7 +24,7 @@ python3 implementation/weak_iv_finite_strata.py \
 python3 -m unittest discover -s implementation -p 'test_*.py'
 ```
 
-The example has a point estimate of 1.00 and a conservative 95 percent confidence set of approximately `[-1.37, 3.50]`. The implementation does not cover estimated reference weights, data-dependent support, flexible covariates, nonlinear continuations, overlapping cohort stacks, or estimated cohort weights.
+The example has a point estimate of 1.00 and a conservative 95 percent confidence set of approximately `[-1.37, 3.50]`. The implementation does not cover estimated reference weights, data-dependent support, flexible covariates, nonlinear extrapolation of the counterfactual LATE, overlapping cohort stacks, or estimated cohort weights.
 
 ## Simulation
 

@@ -1,6 +1,6 @@
 # Monte Carlo Replication
 
-This package reproduces Figure 3 in *Instrumental Variables in Nested Event Designs: Endogenous Exposure and Changes in Local Average Treatment Effects*.
+This package reproduces Figure 3 in *Instrumental Variables Before and After an Event: Endogenous Exposure and Changes in Local Average Treatment Effects*.
 
 ## Data availability
 

@@ -4,14 +4,14 @@
 This reference implementation matches Section E.3 of the guide. It assumes:
 
 * one pre-event period and one post-event period;
-* a flat no-event continuation;
+* a counterfactual post-event LATE equal to the pre-event LATE;
 * a fixed, finite set of strata;
 * externally fixed reference weights; and
 * valid asymptotically normal standard errors for each reduced form and first
   stage under the user's sampling and clustering design.
 
-The procedure forms Bonferroni-simultaneous intervals for the primitive
-moments, projects each reduced-form/first-stage rectangle through the ratio
+The procedure forms Bonferroni-simultaneous intervals for the reduced-form
+and first-stage moments, projects each rectangle through the ratio
 map, and combines the resulting intervals with the fixed reference weights.
 If a required first-stage interval contains zero, the final outer confidence
 set is reported as the whole real line.
@@ -155,8 +155,8 @@ def project(rows: Sequence[Mapping[str, float | str]], alpha: float) -> Dict[str
     if not math.isclose(total_weight, 1.0, rel_tol=1e-9, abs_tol=1e-9):
         raise ValueError(f"reference_weight must sum to one; found {total_weight:.12g}")
 
-    primitive_count = 4 * len(rows)
-    critical_value = NormalDist().inv_cdf(1.0 - alpha / (2.0 * primitive_count))
+    moment_count = 4 * len(rows)
+    critical_value = NormalDist().inv_cdf(1.0 - alpha / (2.0 * moment_count))
     stratum_results: List[Dict[str, object]] = []
     weighted_changes: List[Tuple[float, Interval]] = []
     first_stage_intervals: List[Interval] = []
@@ -208,7 +208,7 @@ def project(rows: Sequence[Mapping[str, float | str]], alpha: float) -> Dict[str
             {
                 "stratum": str(row["stratum"]),
                 "reference_weight": weight,
-                "primitive_intervals": {
+                "moment_intervals": {
                     name: [_json_bound(bounds[0]), _json_bound(bounds[1])]
                     for name, bounds in intervals.items()
                 },
@@ -221,20 +221,20 @@ def project(rows: Sequence[Mapping[str, float | str]], alpha: float) -> Dict[str
     confidence_set = weighted_sum(weighted_changes)
     all_real = math.isinf(confidence_set[0]) or math.isinf(confidence_set[1])
     if any(bounds[1] <= 0.0 for bounds in first_stage_intervals):
-        interval_assessment = "contradicts_declared_positive_orientation"
+        interval_assessment = "contradicts_positive_first_stage_direction"
         causal_interpretation_stop = True
         orientation_message = (
             "At least one simultaneous first-stage interval lies wholly at or below zero, "
-            "contradicting the declared positive orientation at this confidence level. Stop "
-            "the common-orientation causal interpretation unless the design is redefined and "
+            "contradicting the assumed positive direction of the first stage at this confidence "
+            "level. Stop the causal interpretation unless the design is redefined and "
             "defended; the script does not reorient the data."
         )
     elif all(bounds[0] > 0.0 for bounds in first_stage_intervals):
-        interval_assessment = "consistent_with_declared_positive_orientation"
+        interval_assessment = "consistent_with_positive_first_stages"
         causal_interpretation_stop = False
         orientation_message = (
-            "Every simultaneous first-stage interval lies above zero under the declared "
-            "positive orientation. This diagnostic does not establish monotonicity or "
+            "Every simultaneous first-stage interval lies above zero. This diagnostic does "
+            "not establish monotonicity or "
             "exclusion."
         )
     else:
@@ -242,15 +242,15 @@ def project(rows: Sequence[Mapping[str, float | str]], alpha: float) -> Dict[str
         causal_interpretation_stop = False
         orientation_message = (
             "No required simultaneous first-stage interval lies wholly below zero, but at "
-            "least one spans zero with a positive upper endpoint. Treat orientation evidence "
-            "as inconclusive and weak "
+            "least one spans zero with a positive upper endpoint. Treat the evidence about "
+            "the first-stage direction as inconclusive and weak "
             "identification as potentially severe; sampling noise alone is not a causal-"
             "assumption failure."
         )
     return {
         "alpha": alpha,
         "coverage_level": 1.0 - alpha,
-        "primitive_moment_count": primitive_count,
+        "moment_count": moment_count,
         "bonferroni_critical_value": critical_value,
         "point_estimate": None if math.isnan(point_estimate) else point_estimate,
         "confidence_set": {
@@ -259,7 +259,7 @@ def project(rows: Sequence[Mapping[str, float | str]], alpha: float) -> Dict[str
             "all_real": all_real,
             "display": "(-inf, inf)" if all_real else f"[{confidence_set[0]:.6g}, {confidence_set[1]:.6g}]",
         },
-        "first_stage_orientation": {
+        "first_stage_signs": {
             "point_estimate_status": point_orientation_status,
             "simultaneous_interval_assessment": interval_assessment,
             "causal_interpretation_stop": causal_interpretation_stop,
@@ -268,7 +268,8 @@ def project(rows: Sequence[Mapping[str, float | str]], alpha: float) -> Dict[str
         "strata": stratum_results,
         "scope": (
             "Fixed finite strata, fixed reference weights, one pre period, one post period, "
-            "flat continuation. Primitive standard errors and asymptotic normal approximations "
+            "counterfactual post-event LATE equal to the pre-event LATE. Standard errors and "
+            "asymptotic normal approximations for the reduced-form and first-stage estimates "
             "must already match the sampling and clustering design; the normal critical value "
             "is not a few-cluster correction."
         ),
@@ -277,7 +278,7 @@ def project(rows: Sequence[Mapping[str, float | str]], alpha: float) -> Dict[str
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("input_csv", type=Path, help="CSV containing the required primitive moments")
+    parser.add_argument("input_csv", type=Path, help="CSV containing the required reduced-form and first-stage moments")
     parser.add_argument("--alpha", type=float, default=0.05, help="Tail probability (default: 0.05)")
     parser.add_argument("--output", type=Path, help="Optional JSON output path")
     return parser.parse_args()
