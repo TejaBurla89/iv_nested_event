@@ -21,7 +21,7 @@ This guide develops those links and shows what remains informative when they are
 
 Consider a hospital acquired at a known date. Acquisition is the upper-level event, and emergency patients are the lower-level units. Let $D=1$ denote initial care at the focal hospital. Let $D=0$ denote a declared alternative, such as one comparison hospital or a fixed distribution of eligible hospitals. Let $Z$ denote ambulance-company assignment or a fixed encouragement derived from company preferences.
 
-Ambulance assignment shifts hospital exposure within a period. Acquisition may change the care delivered by the focal hospital, the alternatives available to patients, or both. Thus $Z$ instruments $D$; the event effect comes from comparing local exposure effects across event paths.
+Ambulance assignment supplies within-period variation in hospital destination. The acquisition is a separate intervention. It may change care at the focal hospital and the alternatives against which that care is compared. The design therefore uses $Z$ to identify exposure effects in each period. Additional cross-period assumptions support interpreting their change as an event effect.
 
 Fuzzy or instrumented DiD uses a policy or group change to generate the instrument (de Chaisemartin and D'Haultfœuille 2018; Miyaji 2024). Here, a lower-level IV identifies exposure effects within each period. The event changes the environment across which those effects are compared.
 
@@ -73,7 +73,7 @@ Raw Wald ratios can change because the covariate distribution of compliers chang
 
 A useful default is the covariate distribution of pre-event compliers. Using the observed pre-event distribution $F_{X0}$, the reference measure is proportional to $\pi_0(x)dF_{X0}(x)$. Restrict it to strata that support both period-specific ratios. Choosing another policy-relevant distribution is equally coherent, provided the choice and any trimming are reported.
 
-Standardization aligns the observable mix. A **sampling bridge** then connects observed compliers to compliers in the target universe. One practical version equates their conditional mean exposure effects within $X$. That bridge requires positive observation probability in the target strata. It also requires an exclusion argument that extends beyond the analyzed records. Applications with selective survival or attrition will often need a more explicit model or sensitivity analysis.
+Standardization ensures that the pre- and post-event Wald ratios average over the same observed covariate distribution. At that stage, the estimand concerns compliers whose outcomes are observed. A **sampling bridge** extends their conditional mean exposure effects to compliers in the target universe. That bridge requires positive observation probability in the target strata and an exclusion argument that extends beyond the analyzed records. Applications with selective survival or attrition will often need a more explicit model or sensitivity analysis.
 
 ### 2.3. Stable compliers and the no-event path
 
@@ -133,7 +133,7 @@ If the final row is difficult to defend, the standardized change in factual-peri
 
 ### 3.1. Diagnostic decomposition
 
-Three gaps separate the standardized change from the event target. Write
+The standardized IV change can differ from the event effect for three distinct reasons. The no-event LATE may have changed. The instrument may reach different compliers, and the observed records may represent different parts of the target universe. The following decomposition separates these sources:
 
 \[
 \Delta^{IV,\star}
@@ -180,13 +180,13 @@ These cases isolate the role of each assumption. Standardization handles observe
 
 ### 4.1. Event-time local average treatment effects
 
-With several periods, estimate a standardized Wald ratio at each event time. The resulting path describes how the factual LATE of exposure evolves around the event. Several pre-event points reveal the historical LATE path. They also show how first stages and support change. This evidence can guide a prespecified continuation.
+Additional periods turn the pair of Wald ratios into an event-time path of standardized LATEs. Pre-event estimates reveal how the local effect was evolving before the event. They also show how the first stage and common support change. Together, these patterns provide evidence for choosing and calibrating the no-event continuation.
 
-Pre-event estimates remain evidence rather than a direct observation of the missing post-event path. Low-powered pretrend tests offer limited reassurance, and choosing the continuation because one specification passes a test changes the subsequent inference (Roth 2022). A clear design states the reference period, transition window, continuation, and sensitivity range in advance.
+The historical path informs the missing post-event counterfactual; the continuation remains a maintained assumption. Low-powered pretrend tests offer limited reassurance, and choosing the continuation because one specification passes a test changes the subsequent inference (Roth 2022). A clear design states the reference period, transition window, continuation, and sensitivity range in advance.
 
 ### 4.2. Cohort-specific estimation and aggregation
 
-For staggered events, begin with cohort-by-event-time estimates. This follows the group-time discipline used in modern staggered designs (Callaway and Sant'Anna 2021). Within each cohort, calculate the conditional reduced forms and first stages for every upper-level unit. Next form the supported Wald ratios, standardize them, and average across units. This order preserves the target weights. Pooling reduced forms and first stages before taking a ratio creates first-stage-dependent weights. It generally answers a different question.
+Staggered timing introduces another source of changing composition: the cohorts contributing to an estimate can vary across event time. Beginning with cohort-by-event-time estimates keeps those changes visible. This sequence also follows the group-time discipline used in modern staggered designs (Callaway and Sant'Anna 2021). Within each cohort, calculate the conditional reduced forms and first stages for every upper-level unit. Next form the supported Wald ratios, standardize them, and average across units. This order preserves the target weights. Pooling reduced forms and first stages before taking a ratio creates first-stage-dependent weights and generally answers a different question.
 
 Next aggregate cohort-specific effects using prespecified weights. A balanced event study retains the same cohort set and cohort weights at every horizon. That fixed mixture improves comparability across event time. Each contributing cohort-period component still needs IV support, sampling support, and a defensible local-population link. When some components lose support, report the unsupported reference mass. Then defend extrapolation or relabel the estimand over the supported set.
 
@@ -221,7 +221,7 @@ The pre-event standardized LATE is $0.60(1.80)+0.40(1.50)=1.68$. The post-event 
 
 ### 5.3. Inference
 
-Component estimates share observations, reference weights, continuations, cohort stacks, and sometimes a generated instrument. Inference should therefore target the assembled contrast. A full-process cluster bootstrap provides a natural strong-identification approach. Resample the original independent units and reconstruct every estimated component. This reconstruction includes the reference distribution, cohort stacks, and generated scores.
+Inference must address two features of the estimator. First, its components are dependent because they share observations, reference weights, continuations, cohort stacks, and sometimes a generated instrument. Second, each component is a ratio and can become unstable when its first stage is weak. Under strong identification, inference should target the assembled contrast. A full-process cluster bootstrap resamples the original independent units and reconstructs every estimated component, including the reference distribution, cohort stacks, and generated scores.
 
 Weak first stages require identification-robust inference for the assembled target. Section E.3 gives an executable conservative projection for fixed finite strata, fixed external weights, and a flat continuation. The procedure works with simultaneous intervals for the reduced forms and first stages. It allows the final confidence set to become unbounded when the data do not rule out a zero denominator. Estimated weights, selected support, and staggered aggregation require procedures developed for those larger functionals. If no such procedure is available, report the primitive moments and describe conventional intervals as strong-identification approximations.
 
@@ -338,7 +338,7 @@ This equality is the complete identification argument. A general continuation re
 
 ### B.3. A weaker population link
 
-Set equality is sufficient but stronger than the algebra requires. To state the weaker route, write
+Equality of complier sets is a convenient benchmark. The algebra instead relies on equality of the relevant mean effects. The following conditions state exactly which effects must transfer across groups. For any group $G$, write
 
 \[
 M_{t,a}^{G}(x)
@@ -398,6 +398,8 @@ Equation (6) is the symmetric rectangular case. The set $\mathcal H$ can instead
 
 ## D. Multiple periods and staggered events
 
+The multiple-period design applies the two-period argument separately to each cohort and event-time component. The main additional issue is how those components are aggregated.
+
 Index event cohorts by $c$, upper-level units by $h$, and event time by $k$. For each component, let $\rho_{hck}(x)$ and $\pi_{hck}(x)$ denote the conditional reduced form and first stage. Given the declared reference distribution $F_{X,hc}^\star$, the factual standardized LATE is
 
 \[
@@ -446,6 +448,8 @@ The pooled ratio therefore uses first-stage-dependent weights rather than the we
 ## E. Estimation and inference
 
 ### E.1. Finite-strata estimator
+
+Estimation follows the estimand in two stages. First calculate the supported period-specific Wald ratios. Then average them using the declared reference weights.
 
 For finite covariate strata $x\in\mathcal X^\star$, let $\widehat p_x^\star$ denote the reference weight. Let $\widehat g_1$ denote the estimated no-event continuation. The plug-in estimator is
 
