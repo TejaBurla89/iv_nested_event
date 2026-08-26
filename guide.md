@@ -1,6 +1,6 @@
 ---
 title: "Instrumental Variables Before and After an Event"
-subtitle: "Endogenous Exposure and Changes in Local Average Treatment Effects"
+subtitle: "Identification with Endogenous Exposure"
 author: "Sriteja Burla"
 date: "August 2026"
 lang: en-US
@@ -251,7 +251,7 @@ When these assumptions are convincing, the standardized change in Wald ratios id
 
 **Suggested citation**
 
-Burla, Sriteja. 2026. *Instrumental Variables Before and After an Event: Endogenous Exposure and Changes in Local Average Treatment Effects*. Version 1.0, August 2026.
+Burla, Sriteja. 2026. *Instrumental Variables Before and After an Event: Identification with Endogenous Exposure*. Version 1.0, August 2026.
 
 \newpage
 
